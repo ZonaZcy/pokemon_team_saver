@@ -1,0 +1,32 @@
+{
+  "name": "pokemon-team-manager",
+  "version": "1.0.0",
+  "description": "宝可梦队伍管理器 - 纯静态的宝可梦对战队伍管理工具",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "http-server -p 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR-USERNAME/pokemon-team-manager.git"
+  },
+  "keywords": [
+    "pokemon",
+    "showdown",
+    "vgc",
+    "team-builder",
+    "静态网站"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {},
+  "externalDependencies": {
+    "jquery": "3.7.1",
+    "font-awesome": "4.7.0"
+  },
+  "note": "本项目为纯静态网站，外部依赖通过CDN加载，无需 npm install"
+}

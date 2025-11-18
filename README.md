@@ -3,17 +3,21 @@
 > 纯静态的宝可梦对战队伍管理工具，可部署到 GitHub Pages
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 
 ## ✨ 特性
 
 - ✅ **队伍管理** - 创建、查看、编辑、删除、复制、搜索队伍
+- ✅ **编辑功能** - 支持编辑队伍信息（���称、格式、描述、标签）和宝可梦详细属性
+- ✅ **云端队伍库** - 浏览和导入云端预设队伍，快速上手
 - ✅ **Showdown 兼容** - 完美支持 Pokemon Showdown 格式导入/导出
 - ✅ **详细信息** - 鼠标悬停显示招式/特性/道具描述
-- ✅ **属性标签** - 18种宝可梦属性类型颜色标签
-- ✅ **本地存储** - 所有数据保存在浏览器本地（localStorage）
+- ✅ **招式详情** - 显示招式威力、命中率、先制度等完整信息
+- ✅ **属性标签** - 19种宝可梦属性类型颜色标签（含太晶属性）
+- ✅ **统计面板** - 实时显示队伍数量、宝可梦总数、使用格式统计
+- ✅ **本地存储** - 所有数据保存在浏览器本地（localStorage���
 - ✅ **隐私安全** - 零服务器请求，数据完全私密
 - ✅ **响应式设计** - 支持桌面和移动设备
 - ✅ **离线可用** - 除精灵图外，完全离线工作
@@ -99,13 +103,22 @@ Careful Nature
 
 ### 3. 管理队伍
 
+- **查看详情**: 查看完整的队伍信息和宝可梦配置
+- **编辑队伍**: 修改队伍名称、格式、描述和标签
+- **编辑宝可梦**: 修改单个宝可梦的道具、特性、招式、EVs/IVs等属性
 - **复制队伍**: 快速创建队伍副本
 - **导出队伍**: 复制到剪贴板，可粘贴到 Pokemon Showdown
 - **删除队伍**: 永久删除（无法恢复，请谨慎操作）
 - **搜索**: 按队伍名称、宝可梦名称搜索
 - **筛选**: 按对战格式筛选队伍
 
-### 4. 备份与恢复
+### 4. 云端队伍库
+
+- **浏览队伍**: 点击"云端队伍库"按钮查看预设队伍
+- **导入队伍**: 一键导入云端队伍到本地
+- **查看详情**: 查看云端队伍的完整配置
+
+### 5. 备份与恢复
 
 - **备份所有队伍**: 下载 JSON 文件保存所有队伍
 - **恢复队伍**: 暂不支持，建议定期备份重要队伍
@@ -116,11 +129,11 @@ Careful Nature
 
 **所有队伍数据仅存储在您的浏览器本地（localStorage），不会上传到任何服务器。**
 
-- ✅ 完全本地存储，无服务器交互
+- ✅ 完全本地存储，队伍数据不会上传
 - ✅ 其他人无法访问您的队伍数据
-- ✅ 可按 F12 打开开发者工具验证无网络请求（仅精灵图从 Pokemon Showdown CDN 加载）
 - ⚠️ 清除浏览器数据会删除所有队伍
-- 💡 建议定期使用"备份所有队伍"功能导出备份
+- 💡 建议定期使用"备��所有队伍"功能导出备份
+
 
 ### 如何备份数据
 
@@ -131,9 +144,8 @@ Careful Nature
 ## 📁 项目结构
 
 ```
-static-site/
+team_manager/
 ├── index.html                 # 主页面
-├── DEPLOYMENT.md              # 部署指南
 ├── README.md                  # 项目说明
 ├── .gitignore                 # Git 忽略文件
 ├── css/
@@ -141,7 +153,8 @@ static-site/
 ├── js/
 │   ├── app.js                # 应用主逻辑
 │   ├── teamManager.js        # 队伍管理器（localStorage）
-│   └── showdownParser.js     # Showdown 格式解析器
+│   ├── showdownParser.js     # Showdown 格式解析器
+│   └── utils.js              # 工具函数（翻译、精灵图坐标等）
 ├── data/
 │   ├── abilities.json        # 特性数据（中英文）
 │   ├── items.json            # 道具数据（中英文）
@@ -150,14 +163,18 @@ static-site/
 │   ├── forms_index.json      # 精灵图索引
 │   ├── meta_names.json       # 格式名称映射
 │   └── translate.json        # 翻译数据
-└── images/
-    ├── pokemonicons-sheet.png  # 宝可梦图标精灵图
-    └── itemicons-sheet.png     # 道具图标精灵图
+├── images/
+│   ├── pokemonicons-sheet.png  # 宝可梦图标精灵图
+│   └── itemicons-sheet.png     # 道具图标精灵图
+└── cloud-teams/              # 云端队伍库（可选）
+    ├── index.json            # 队伍索引
+    └── *.json                # 队伍数据文件
 ```
 
 ## 🛠️ 技术栈
 
 - **前端**: HTML5, CSS3, JavaScript ES6+
+- **UI库**: jQuery 3.7.1, Font Awesome 4.7.0
 - **存储**: localStorage API
 - **构建**: 无需构建工具，纯静态文件
 - **部署**: GitHub Pages / 任何静态托管服务
