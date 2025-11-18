@@ -1,0 +1,204 @@
+{
+  "name": "雪天猛犸队",
+  "format": "gen9vgc2026regf",
+  "description": "雪天猛犸队，使用视频 https://www.bilibili.com/video/BV1gy421i7aX",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Mamoswine",
+      "nickname": "",
+      "gender": "",
+      "item": "Assault Vest",
+      "ability": "Oblivious",
+      "level": 50,
+      "tera_type": "Poison",
+      "nature": "Adamant",
+      "evs": [
+        92,
+        156,
+        4,
+        0,
+        156,
+        100
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Icicle Crash",
+        "High Horsepower",
+        "Heavy Slam",
+        "Ice Shard"
+      ]
+    },
+    {
+      "name": "Roaring Moon",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Poison",
+      "nature": "Jolly",
+      "evs": [
+        60,
+        124,
+        156,
+        0,
+        4,
+        164
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Breaking Swipe",
+        "Knock Off",
+        "Tailwind",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Ninetales-Alola",
+      "nickname": "",
+      "gender": "",
+      "item": "Light Clay",
+      "ability": "Snow Warning",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Timid",
+      "evs": [
+        148,
+        0,
+        4,
+        100,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Moonblast",
+        "Blizzard",
+        "Aurora Veil",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Heatran",
+      "nickname": "",
+      "gender": "",
+      "item": "Life Orb",
+      "ability": "Flash Fire",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Modest",
+      "evs": [
+        100,
+        0,
+        20,
+        252,
+        20,
+        116
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Heat Wave",
+        "Flash Cannon",
+        "Earth Power",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Rillaboom",
+      "nickname": "",
+      "gender": "",
+      "item": "Miracle Seed",
+      "ability": "Grassy Surge",
+      "level": 50,
+      "tera_type": "Fire",
+      "nature": "Adamant",
+      "evs": [
+        116,
+        252,
+        4,
+        0,
+        76,
+        60
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Wood Hammer",
+        "Grassy Glide",
+        "Fake Out",
+        "U-turn"
+      ]
+    },
+    {
+      "name": "Urshifu-Rapid-Strike",
+      "nickname": "",
+      "gender": "",
+      "item": "Choice Scarf",
+      "ability": "Unseen Fist",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Adamant",
+      "evs": [
+        0,
+        252,
+        0,
+        0,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Surging Strikes",
+        "Close Combat",
+        "Aqua Jet",
+        "U-turn"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:45:56.104638Z",
+  "updated_at": "2025-11-18T13:45:56.104638Z"
+}

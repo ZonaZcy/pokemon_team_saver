@@ -1,0 +1,1159 @@
+/* ==========================================
+   Apple Design System - 宝可梦队伍管理器
+   ========================================== */
+
+/* CSS 变量 - Apple 设计系统颜色 */
+:root {
+    /* 系统颜色 */
+    --apple-blue: #007AFF;
+    --apple-green: #34C759;
+    --apple-orange: #FF9500;
+    --apple-red: #FF3B30;
+    --apple-purple: #AF52DE;
+    --apple-pink: #FF2D55;
+
+    /* 中性色 */
+    --bg-primary: #f5f5f7;
+    --bg-secondary: #ffffff;
+    --surface: #ffffff;
+    --surface-hover: #f9f9f9;
+
+    /* 文字颜色 */
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --text-tertiary: #d2d2d7;
+
+    /* 分隔线 */
+    --separator: rgba(0, 0, 0, 0.1);
+
+    /* 阴影 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    /* 字体 */
+    --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                   "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 全局重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-system);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   主容器
+   ========================================== */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+/* ==========================================
+   头部区域 - Apple 风格大标题
+   ========================================== */
+header {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+}
+
+header h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    line-height: 1.08349;
+}
+
+header h1 i {
+    color: var(--apple-blue);
+    margin-right: 12px;
+}
+
+header p {
+    font-size: 17px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin: 0;
+}
+
+header p span {
+    background: rgba(0, 122, 255, 0.1);
+    color: var(--apple-blue);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 12px;
+}
+
+/* ==========================================
+   统计卡片 - 毛玻璃效果
+   ========================================== */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--separator);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-value {
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--apple-blue);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* ==========================================
+   工具栏
+   ========================================== */
+.teams-header {
+    margin-bottom: 24px;
+}
+
+.teams-toolbar {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    min-width: 280px;
+}
+
+.filter-box {
+    min-width: 220px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ==========================================
+   Apple 风格按钮
+   ========================================== */
+.button {
+    padding: 10px 20px;
+    border: none;
+    background: var(--surface-hover);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-system);
+    letter-spacing: -0.022em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.button:hover {
+    background: #e8e8ed;
+    transform: scale(1.02);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button-primary {
+    background: var(--apple-blue);
+    color: white;
+}
+
+.button-primary:hover {
+    background: #0051d5;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.button-danger {
+    background: var(--apple-red);
+    color: white;
+}
+
+.button-danger:hover {
+    background: #d70015;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+.button-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 10px;
+}
+
+.button i {
+    font-size: 14px;
+}
+
+/* 云端按钮特殊样式 */
+.button-cloud {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.button-cloud:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #63408b 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* ==========================================
+   输入框 - Apple 风格
+   ========================================== */
+.textbox, .textarea, .select {
+    padding: 12px 16px;
+    border: 1px solid var(--separator);
+    border-radius: 10px;
+    font-size: 15px;
+    width: 100%;
+    font-family: var(--font-system);
+    background: var(--surface);
+    color: var(--text-primary);
+    transition: all 0.2s;
+    -webkit-appearance: none;
+}
+
+.textbox:focus, .textarea:focus, .select:focus {
+    outline: none;
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.textbox::placeholder, .textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+.textarea {
+    resize: vertical;
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   队伍卡片网格
+   ========================================== */
+.teams-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 24px;
+}
+
+/* ==========================================
+   队伍卡片 - Apple 卡片设计
+   ========================================== */
+.team-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--separator);
+}
+
+.team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.team-card-header {
+    margin-bottom: 16px;
+}
+
+.team-name {
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+.team-meta {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.format-badge {
+    background: var(--apple-blue);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.pokemon-count {
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.team-description {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   宝可梦图标列表
+   ========================================== */
+.team-pokemon-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.pokemon-mini {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--bg-primary);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--separator);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    min-width: 0; /* 防止内容溢出 */
+}
+
+.pokemon-mini:hover {
+    transform: scale(1.1);
+    border-color: var(--apple-blue);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+    z-index: 1;
+}
+
+/* ==========================================
+   标签
+   ========================================== */
+.team-tags {
+    margin-bottom: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: var(--bg-primary);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    border: 1px solid var(--separator);
+}
+
+/* ==========================================
+   卡片底部
+   ========================================== */
+.team-card-footer {
+    border-top: 1px solid var(--separator);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.team-date {
+    color: var(--text-tertiary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.team-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ==========================================
+   空状态
+   ========================================== */
+.empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    background: var(--surface);
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-state i {
+    color: var(--text-tertiary);
+}
+
+.empty-state h3 {
+    margin: 20px 0 12px;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    font-size: 17px;
+}
+
+/* ==========================================
+   模态框 - Apple 风格
+   ========================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--surface);
+    margin: 40px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 640px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 队伍查看模态框 - 更宽 */
+.team-view-modal-content {
+    max-width: 1400px;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--separator);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.015em;
+}
+
+.close-button {
+    background: var(--bg-primary);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-button:hover {
+    background: #e0e0e5;
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 24px 32px;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 20px 32px 28px;
+    border-top: 1px solid var(--separator);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* ==========================================
+   表单组
+   ========================================== */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 15px;
+}
+
+.form-group small {
+    color: var(--text-secondary);
+    font-size: 13px;
+    display: block;
+    margin-top: 6px;
+}
+
+/* ==========================================
+   队伍查看模态框样式
+   ========================================== */
+.team-view-info {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.team-view-description {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.team-view-pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* ==========================================
+   精灵图
+   ========================================== */
+.image-pokemon, .image-item {
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.image-item {
+    width: 24px;
+    height: 24px;
+    background-image: url('../images/itemicons-sheet.png');
+}
+
+.image-pokemon {
+    width: 40px;
+    height: 30px;
+    background-image: url('../images/pokemonicons-sheet.png');
+    transform: scale(1.5);
+}
+
+/* ==========================================
+   Tooltip - Apple 风格
+   ========================================== */
+.tooltip {
+    position: fixed;
+    background: rgba(30, 30, 30, 0.92);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    color: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 280px;
+    white-space: normal;
+    word-wrap: break-word;
+    z-index: 10000;
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+                0 0 0 0.5px rgba(255, 255, 255, 0.1);
+    display: none;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.tooltip.show {
+    display: block;
+    animation: tooltipFadeIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==========================================
+   属性类型徽章 - 更现代的设计
+   ========================================== */
+.type-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 宝可梦属性颜色 */
+.type-Normal { background: linear-gradient(135deg, #A8A77A, #C6C6A7); }
+.type-Fire { background: linear-gradient(135deg, #EE8130, #F5AC78); }
+.type-Water { background: linear-gradient(135deg, #6390F0, #9DB7F5); }
+.type-Electric { background: linear-gradient(135deg, #F7D02C, #FAE078); color: #333; }
+.type-Grass { background: linear-gradient(135deg, #7AC74C, #A7DB8D); }
+.type-Ice { background: linear-gradient(135deg, #96D9D6, #BCE6E6); }
+.type-Fighting { background: linear-gradient(135deg, #C22E28, #EB4971); }
+.type-Poison { background: linear-gradient(135deg, #A33EA1, #C183C1); }
+.type-Ground { background: linear-gradient(135deg, #E2BF65, #EBD69D); }
+.type-Flying { background: linear-gradient(135deg, #A98FF3, #C6B7F5); }
+.type-Psychic { background: linear-gradient(135deg, #F95587, #FA92B2); }
+.type-Bug { background: linear-gradient(135deg, #A6B91A, #C6D16E); }
+.type-Rock { background: linear-gradient(135deg, #B6A136, #D1C17D); }
+.type-Ghost { background: linear-gradient(135deg, #735797, #A292BC); }
+.type-Dragon { background: linear-gradient(135deg, #6F35FC, #A27DFA); }
+.type-Dark { background: linear-gradient(135deg, #705746, #A29288); }
+.type-Steel { background: linear-gradient(135deg, #B7B7CE, #D1D1E0); }
+.type-Fairy { background: linear-gradient(135deg, #D685AD, #F4BDC9); }
+.type-Stellar { background: linear-gradient(135deg, #40B5A5, #76E7CF); }
+
+/* ==========================================
+   招式列表
+   ========================================== */
+.pokemon-moves {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.pokemon-move {
+    background: var(--bg-primary);
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--separator);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: space-between;
+}
+
+.pokemon-move:hover {
+    background: var(--surface-hover);
+    border-color: var(--apple-blue);
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.1);
+}
+
+.pokemon-move-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    flex-shrink: 0;
+}
+
+/* ==========================================
+   特性和道具显示
+   ========================================== */
+.ability-display, .item-display {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    background: rgba(0, 122, 255, 0.08);
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 122, 255, 0.2);
+    color: var(--apple-blue);
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ability-display:hover, .item-display:hover {
+    background: rgba(0, 122, 255, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+}
+
+.item-display {
+    background: rgba(255, 149, 0, 0.08);
+    border-color: rgba(255, 149, 0, 0.2);
+    color: var(--apple-orange);
+    flex-direction: row;
+    align-items: center;
+}
+
+.item-display:hover {
+    background: rgba(255, 149, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
+}
+
+/* ==========================================
+   加载状态
+   ========================================== */
+.loading {
+    text-align: center;
+    padding: 60px 40px;
+    color: var(--text-secondary);
+}
+
+.loading i {
+    font-size: 40px;
+    color: var(--apple-blue);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+/* 平板尺寸 */
+@media (max-width: 1024px) {
+    .container {
+        padding: 24px 20px;
+    }
+
+    header h1 {
+        font-size: 42px;
+    }
+
+    .teams-container {
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    }
+
+    .team-card {
+        padding: 20px;
+    }
+
+    /* 队伍查看模态框 - 平板 */
+    .team-view-pokemon-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .team-view-modal-content {
+        max-width: 90%;
+        margin: 20px;
+    }
+}
+
+/* 手机尺寸 */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 12px;
+    }
+
+    header {
+        padding: 24px 20px;
+        border-radius: 16px;
+        margin-bottom: 24px;
+    }
+
+    header h1 {
+        font-size: 32px;
+        line-height: 1.1;
+    }
+
+    header p {
+        font-size: 15px;
+    }
+
+    header p span {
+        display: block;
+        margin: 8px 0 0 0;
+        width: fit-content;
+    }
+
+    /* 统计卡片 */
+    .stats-overview {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+    }
+
+    /* 工具栏 */
+    .teams-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        border-radius: 12px;
+        gap: 12px;
+    }
+
+    .search-box {
+        flex-direction: column;
+        width: 100%;
+        min-width: auto;
+        gap: 8px;
+    }
+
+    .search-box .textbox {
+        width: 100%;
+    }
+
+    .filter-box {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .action-buttons .button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* 队伍卡片 */
+    .teams-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .team-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .team-name {
+        font-size: 20px;
+    }
+
+    /* 宝可梦图标 - 手机上3列 */
+    .team-pokemon-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .pokemon-mini {
+        border-radius: 12px;
+    }
+
+    /* 标签 */
+    .tag {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    /* 卡片底部 */
+    .team-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .team-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .team-actions .button {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 12px;
+    }
+
+    /* 模态框 */
+    .modal-content {
+        margin: 16px;
+        max-width: calc(100% - 32px);
+        border-radius: 16px;
+    }
+
+    .modal-header {
+        padding: 20px 20px 16px;
+    }
+
+    .modal-header h2 {
+        font-size: 22px;
+    }
+
+    .modal-body {
+        padding: 16px 20px;
+        max-height: calc(100vh - 200px);
+    }
+
+    .modal-footer {
+        padding: 16px 20px 20px;
+        flex-wrap: wrap;
+    }
+
+    .modal-footer .button {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    /* 队伍查看模态框 - 手机 */
+    .team-view-pokemon-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .team-view-info {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .team-view-info .button {
+        width: 100%;
+    }
+
+    /* Pokemon 详情卡片在手机上的优化 */
+    .team-view-pokemon-grid > div {
+        padding: 12px !important;
+    }
+
+    /* EVs/IVs 在手机上改为单列 */
+    .team-view-pokemon-grid div[style*="grid-template-columns: repeat(3"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* 特性和道具在手机上堆叠 */
+    .team-view-pokemon-grid div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 表单 */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .textbox, .textarea, .select {
+        font-size: 16px; /* 防止iOS自动缩放 */
+    }
+
+    /* 按钮 */
+    .button {
+        font-size: 15px;
+        padding: 11px 20px;
+    }
+
+    .button-sm {
+        font-size: 13px;
+        padding: 7px 14px;
+    }
+}
+
+/* 小手机尺寸 */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 28px;
+    }
+
+    .stat-card {
+        padding: 16px 12px;
+    }
+
+    .stat-value {
+        font-size: 28px;
+    }
+
+    .team-card {
+        padding: 16px;
+    }
+
+    .team-name {
+        font-size: 18px;
+    }
+
+    /* 宝可梦图标 - 小手机上保持3列但更紧凑 */
+    .team-pokemon-list {
+        gap: 6px;
+    }
+
+    .pokemon-mini {
+        border-radius: 10px;
+    }
+
+    /* 按钮更小 */
+    .team-actions {
+        gap: 6px;
+    }
+
+    .team-actions .button {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .modal-content {
+        margin: 12px;
+        max-width: calc(100% - 24px);
+    }
+
+    .modal-header h2 {
+        font-size: 20px;
+    }
+
+    /* 队伍查看模态框 - 小手机 */
+    .team-view-modal-content {
+        max-width: calc(100% - 24px);
+    }
+
+    .team-view-pokemon-grid {
+        gap: 12px;
+    }
+}
+
+/* ==========================================
+   工具类
+   ========================================== */
+.hidden {
+    display: none !important;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid transparent;
+    background-clip: content-box;
+}

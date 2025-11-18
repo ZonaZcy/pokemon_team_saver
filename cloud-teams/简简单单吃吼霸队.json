@@ -1,0 +1,88 @@
+{
+  "name": "简简单单吃吼霸队",
+  "format": "gen9vgc2026regf",
+  "description": "简简单单吃吼霸，使用视频https://www.bilibili.com/video/BV1pC411s7Tq",
+  "tags": ["简简单单", "VGC"],
+  "pokemons": [
+    {
+      "name": "Dondozo",
+      "nickname": "",
+      "gender": "F",
+      "item": "Leftovers",
+      "ability": "Unaware",
+      "level": 50,
+      "tera_type": "Fairy",
+      "nature": "Adamant",
+      "evs": [116, 156, 4, 0, 228, 4],
+      "ivs": [31, 31, 31, 31, 31, 31],
+      "moves": ["Substitute", "Order Up", "Protect", "Earthquake"]
+    },
+    {
+      "name": "Tatsugiri",
+      "nickname": "",
+      "gender": "F",
+      "item": "Choice Scarf",
+      "ability": "Commander",
+      "level": 50,
+      "tera_type": "Steel",
+      "nature": "Timid",
+      "evs": [6, 0, 0, 252, 0, 252],
+      "ivs": [31, 0, 31, 31, 31, 23],
+      "moves": ["Muddy Water", "Draco Meteor", "Tera Blast", "Icy Wind"]
+    },
+    {
+      "name": "Flutter Mane",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Timid",
+      "evs": [100, 0, 60, 180, 4, 164],
+      "ivs": [31, 0, 31, 31, 31, 31],
+      "moves": ["Protect", "Taunt", "Moonblast", "Icy Wind"]
+    },
+    {
+      "name": "Glimmora",
+      "nickname": "",
+      "gender": "F",
+      "item": "Power Herb",
+      "ability": "Toxic Debris",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Timid",
+      "evs": [4, 0, 0, 252, 0, 252],
+      "ivs": [31, 0, 31, 31, 31, 31],
+      "moves": ["Meteor Beam", "Sludge Bomb", "Earth Power", "Protect"]
+    },
+    {
+      "name": "Entei",
+      "nickname": "",
+      "gender": "",
+      "item": "Assault Vest",
+      "ability": "Inner Focus",
+      "level": 50,
+      "tera_type": "Normal",
+      "nature": "Adamant",
+      "evs": [68, 116, 20, 0, 148, 156],
+      "ivs": [31, 31, 31, 31, 31, 31],
+      "moves": ["Sacred Fire", "Stomping Tantrum", "Snarl", "Extreme Speed"]
+    },
+    {
+      "name": "Urshifu",
+      "nickname": "",
+      "gender": "F",
+      "item": "Focus Sash",
+      "ability": "Unseen Fist",
+      "level": 50,
+      "tera_type": "Dark",
+      "nature": "Adamant",
+      "evs": [4, 252, 0, 0, 0, 252],
+      "ivs": [31, 31, 31, 31, 31, 31],
+      "moves": ["Wicked Blow", "Close Combat", "Sucker Punch", "Detect"]
+    }
+  ],
+  "created_at": "2025-01-15T10:00:00Z",
+  "updated_at": "2025-01-15T10:00:00Z"
+}

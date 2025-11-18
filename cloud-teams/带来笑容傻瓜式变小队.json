@@ -1,0 +1,204 @@
+{
+  "name": "带来笑容傻瓜式变小队",
+  "format": "gen9vgc2026regf",
+  "description": "带来笑容傻瓜式变小队，使用视频 https://www.bilibili.com/video/BV1Ei4y1i74c",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Latias",
+      "nickname": "",
+      "gender": "",
+      "item": "Rocky Helmet",
+      "ability": "Levitate",
+      "level": 50,
+      "tera_type": "Poison",
+      "nature": "Timid",
+      "evs": [
+        252,
+        0,
+        4,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Psych Up",
+        "Draining Kiss",
+        "Mist Ball",
+        "Calm Mind"
+      ]
+    },
+    {
+      "name": "Smeargle",
+      "nickname": "",
+      "gender": "",
+      "item": "Focus Sash",
+      "ability": "Moody",
+      "level": 50,
+      "tera_type": "Ghost",
+      "nature": "Jolly",
+      "evs": [
+        4,
+        252,
+        0,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Fake Out",
+        "Follow Me",
+        "Spore",
+        "Explosion"
+      ]
+    },
+    {
+      "name": "Muk-Alola",
+      "nickname": "",
+      "gender": "",
+      "item": "Leftovers",
+      "ability": "Power of Alchemy",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Impish",
+      "evs": [
+        252,
+        0,
+        252,
+        0,
+        6,
+        0
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Knock Off",
+        "Toxic",
+        "Minimize",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Flamigo",
+      "nickname": "",
+      "gender": "",
+      "item": "Sitrus Berry",
+      "ability": "Costar",
+      "level": 50,
+      "tera_type": "Steel",
+      "nature": "Jolly",
+      "evs": [
+        244,
+        4,
+        4,
+        0,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Brave Bird",
+        "Roost",
+        "Close Combat",
+        "Wide Guard"
+      ]
+    },
+    {
+      "name": "Urshifu",
+      "nickname": "",
+      "gender": "",
+      "item": "Black Glasses",
+      "ability": "Unseen Fist",
+      "level": 50,
+      "tera_type": "Dark",
+      "nature": "Adamant",
+      "evs": [
+        4,
+        252,
+        0,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Detect",
+        "Sucker Punch",
+        "Close Combat",
+        "Wicked Blow"
+      ]
+    },
+    {
+      "name": "Flutter Mane",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Fairy",
+      "nature": "Timid",
+      "evs": [
+        124,
+        0,
+        140,
+        116,
+        4,
+        124
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Moonblast",
+        "Icy Wind",
+        "Shadow Ball",
+        "Protect"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:35:33.667969Z",
+  "updated_at": "2025-11-18T13:35:33.667969Z"
+}

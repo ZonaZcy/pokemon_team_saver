@@ -1,0 +1,204 @@
+{
+  "name": "斗龙队5V0攻进化奇石看我嘛鸭嘴火兽",
+  "format": "gen9vgc2026regf",
+  "description": "斗龙队，波特兰R赛10-4最终第22名Michael Zhang的队伍，使用视频 https://www.bilibili.com/video/BV14e411h7ws",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Kommo-o",
+      "nickname": "",
+      "gender": "",
+      "item": "Leftovers",
+      "ability": "Overcoat",
+      "level": 51,
+      "tera_type": "Steel",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        36,
+        4,
+        204,
+        12
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Body Press",
+        "Iron Defense",
+        "Protect",
+        "Flash Cannon"
+      ]
+    },
+    {
+      "name": "Primarina",
+      "nickname": "",
+      "gender": "",
+      "item": "Rocky Helmet",
+      "ability": "Liquid Voice",
+      "level": 61,
+      "tera_type": "Steel",
+      "nature": "Modest",
+      "evs": [
+        228,
+        0,
+        4,
+        188,
+        4,
+        84
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Hyper Voice",
+        "Life Dew",
+        "Moonblast",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Tyranitar",
+      "nickname": "",
+      "gender": "",
+      "item": "Assault Vest",
+      "ability": "Sand Stream",
+      "level": 56,
+      "tera_type": "Grass",
+      "nature": "Adamant",
+      "evs": [
+        4,
+        244,
+        4,
+        0,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Tera Blast",
+        "Rock Slide",
+        "Knock Off",
+        "Low Kick"
+      ]
+    },
+    {
+      "name": "Rillaboom",
+      "nickname": "",
+      "gender": "",
+      "item": "Miracle Seed",
+      "ability": "Grassy Surge",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Adamant",
+      "evs": [
+        212,
+        252,
+        4,
+        0,
+        4,
+        36
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Protect",
+        "Grassy Glide",
+        "Wood Hammer",
+        "Fake Out"
+      ]
+    },
+    {
+      "name": "Latios",
+      "nickname": "",
+      "gender": "",
+      "item": "Soul Dew",
+      "ability": "Levitate",
+      "level": 70,
+      "tera_type": "Steel",
+      "nature": "Timid",
+      "evs": [
+        12,
+        0,
+        4,
+        236,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Icy Wind",
+        "Draco Meteor",
+        "Luster Purge",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Magmar",
+      "nickname": "",
+      "gender": "",
+      "item": "Eviolite",
+      "ability": "Flame Body",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        180,
+        4,
+        68,
+        4
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Protect",
+        "Follow Me",
+        "Overheat",
+        "Helping Hand"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:44:45.113224Z",
+  "updated_at": "2025-11-18T13:44:45.113224Z"
+}

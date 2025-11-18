@@ -1,0 +1,204 @@
+{
+  "name": "电场兄弟铁斑叶猛雷鼓",
+  "format": "gen9vgc2026regf",
+  "description": "电场兄弟铁斑叶猛雷鼓队，使用视频 https://www.bilibili.com/video/BV1y7421K7kf",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Heatran",
+      "nickname": "",
+      "gender": "",
+      "item": "Assault Vest",
+      "ability": "Flash Fire",
+      "level": 50,
+      "tera_type": "Bug",
+      "nature": "Modest",
+      "evs": [
+        204,
+        0,
+        0,
+        252,
+        0,
+        44
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Magma Storm",
+        "Earth Power",
+        "Heat Wave",
+        "Heavy Slam"
+      ]
+    },
+    {
+      "name": "Iron Leaves",
+      "nickname": "",
+      "gender": "",
+      "item": "Life Orb",
+      "ability": "Quark Drive",
+      "level": 50,
+      "tera_type": "Fire",
+      "nature": "Jolly",
+      "evs": [
+        4,
+        252,
+        0,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Psyblade",
+        "Leaf Blade",
+        "Close Combat",
+        "Ally Switch"
+      ]
+    },
+    {
+      "name": "Thundurus",
+      "nickname": "",
+      "gender": "",
+      "item": "Covert Cloak",
+      "ability": "Prankster",
+      "level": 50,
+      "tera_type": "Dark",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        252,
+        4,
+        0,
+        0
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Electric Terrain",
+        "Eerie Impulse",
+        "Wildbolt Storm",
+        "Scary Face"
+      ]
+    },
+    {
+      "name": "Comfey",
+      "nickname": "",
+      "gender": "",
+      "item": "Rocky Helmet",
+      "ability": "Triage",
+      "level": 50,
+      "tera_type": "Steel",
+      "nature": "Bold",
+      "evs": [
+        188,
+        0,
+        252,
+        68,
+        0,
+        0
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Floral Healing",
+        "Synthesis",
+        "Trick Room",
+        "Draining Kiss"
+      ]
+    },
+    {
+      "name": "Flutter Mane",
+      "nickname": "",
+      "gender": "",
+      "item": "Focus Sash",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Stellar",
+      "nature": "Timid",
+      "evs": [
+        0,
+        0,
+        0,
+        252,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Dazzling Gleam",
+        "Shadow Ball",
+        "Taunt",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Raging Bolt",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Electric",
+      "nature": "Modest",
+      "evs": [
+        92,
+        0,
+        116,
+        252,
+        48,
+        0
+      ],
+      "ivs": [
+        31,
+        20,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Rising Voltage",
+        "Draco Meteor",
+        "Thunderclap",
+        "Protect"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:46:29.905092Z",
+  "updated_at": "2025-11-18T13:46:29.905092Z"
+}

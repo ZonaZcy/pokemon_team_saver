@@ -1,0 +1,204 @@
+{
+  "name": "铁壁雷吉斯齐鲁",
+  "format": "gen9vgc2026regf",
+  "description": "雷吉斯齐鲁队，使用视频 https://www.bilibili.com/video/BV1Se41127Tv",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Incineroar",
+      "nickname": "",
+      "gender": "",
+      "item": "Sitrus Berry",
+      "ability": "Intimidate",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Careful",
+      "evs": [
+        236,
+        4,
+        100,
+        0,
+        156,
+        12
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Flare Blitz",
+        "Fake Out",
+        "Parting Shot",
+        "Knock Off"
+      ]
+    },
+    {
+      "name": "Porygon2",
+      "nickname": "",
+      "gender": "",
+      "item": "Eviolite",
+      "ability": "Download",
+      "level": 50,
+      "tera_type": "Ghost",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        164,
+        4,
+        84,
+        4
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Tri Attack",
+        "Eerie Impulse",
+        "Recover",
+        "Trick Room"
+      ]
+    },
+    {
+      "name": "Rillaboom",
+      "nickname": "",
+      "gender": "",
+      "item": "Assault Vest",
+      "ability": "Grassy Surge",
+      "level": 50,
+      "tera_type": "Fire",
+      "nature": "Adamant",
+      "evs": [
+        252,
+        116,
+        4,
+        0,
+        76,
+        60
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Grassy Glide",
+        "Wood Hammer",
+        "U-turn",
+        "Fake Out"
+      ]
+    },
+    {
+      "name": "Primarina",
+      "nickname": "",
+      "gender": "",
+      "item": "Life Orb",
+      "ability": "Liquid Voice",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Modest",
+      "evs": [
+        188,
+        0,
+        92,
+        188,
+        12,
+        28
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Hyper Voice",
+        "Moonblast",
+        "Ice Beam",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Raging Bolt",
+      "nickname": "",
+      "gender": "",
+      "item": "Safety Goggles",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Electric",
+      "nature": "Modest",
+      "evs": [
+        220,
+        0,
+        148,
+        108,
+        20,
+        12
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Thunderclap",
+        "Dragon Pulse",
+        "Calm Mind",
+        "Protect"
+      ]
+    },
+    {
+      "name": "Registeel",
+      "nickname": "",
+      "gender": "",
+      "item": "Leftovers",
+      "ability": "Clear Body",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Impish",
+      "evs": [
+        252,
+        28,
+        92,
+        0,
+        132,
+        4
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Heavy Slam",
+        "Iron Defense",
+        "Body Press",
+        "Protect"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:31:19.133415Z",
+  "updated_at": "2025-11-18T13:31:19.133415Z"
+}

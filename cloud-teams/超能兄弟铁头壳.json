@@ -1,0 +1,204 @@
+{
+  "name": "超能兄弟铁头壳",
+  "format": "gen9vgc2026regf",
+  "description": "铁头壳队，使用视频 https://www.bilibili.com/video/BV1FN4y1H7dc",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Iron Crown",
+      "nickname": "",
+      "gender": "",
+      "item": "Life Orb",
+      "ability": "Quark Drive",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Modest",
+      "evs": [
+        4,
+        0,
+        0,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        20,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Expanding Force",
+        "Protect",
+        "Tachyon Cutter",
+        "Tera Blast"
+      ]
+    },
+    {
+      "name": "Indeedee-F",
+      "nickname": "",
+      "gender": "",
+      "item": "Psychic Seed",
+      "ability": "Psychic Surge",
+      "level": 50,
+      "tera_type": "Fairy",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        252,
+        0,
+        6,
+        0
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        28
+      ],
+      "moves": [
+        "Dazzling Gleam",
+        "Follow Me",
+        "Helping Hand",
+        "Trick Room"
+      ]
+    },
+    {
+      "name": "Dondozo",
+      "nickname": "",
+      "gender": "",
+      "item": "Rocky Helmet",
+      "ability": "Unaware",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Jolly",
+      "evs": [
+        0,
+        252,
+        0,
+        0,
+        4,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Protect",
+        "Order Up",
+        "Wave Crash",
+        "Earthquake"
+      ]
+    },
+    {
+      "name": "Tatsugiri",
+      "nickname": "",
+      "gender": "",
+      "item": "Choice Scarf",
+      "ability": "Commander",
+      "level": 50,
+      "tera_type": "Steel",
+      "nature": "Timid",
+      "evs": [
+        4,
+        0,
+        0,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Dragon Pulse",
+        "Draco Meteor",
+        "Icy Wind",
+        "Muddy Water"
+      ]
+    },
+    {
+      "name": "Glimmora",
+      "nickname": "",
+      "gender": "",
+      "item": "Focus Sash",
+      "ability": "Toxic Debris",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Modest",
+      "evs": [
+        4,
+        0,
+        0,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Power Gem",
+        "Sludge Bomb",
+        "Spiky Shield",
+        "Mortal Spin"
+      ]
+    },
+    {
+      "name": "Flutter Mane",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Water",
+      "nature": "Timid",
+      "evs": [
+        124,
+        0,
+        140,
+        116,
+        4,
+        124
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Moonblast",
+        "Icy Wind",
+        "Shadow Ball",
+        "Protect"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:37:21.874097Z",
+  "updated_at": "2025-11-18T13:37:21.874097Z"
+}

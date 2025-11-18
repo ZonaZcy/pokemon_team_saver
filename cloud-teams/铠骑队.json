@@ -1,0 +1,204 @@
+{
+  "name": "铠骑队",
+  "format": "gen9vgc2026regf",
+  "description": "红莲铠骑队，使用视频 https://www.bilibili.com/video/BV1WA4m157De",
+  "tags": [
+    "VGC"
+  ],
+  "pokemons": [
+    {
+      "name": "Armarouge",
+      "nickname": "",
+      "gender": "F",
+      "item": "Weakness Policy",
+      "ability": "Weak Armor",
+      "level": 50,
+      "tera_type": "Psychic",
+      "nature": "Modest",
+      "evs": [
+        4,
+        0,
+        0,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Expanding Force",
+        "Heat Wave",
+        "Stored Power",
+        "Endure"
+      ]
+    },
+    {
+      "name": "Indeedee-F",
+      "nickname": "",
+      "gender": "F",
+      "item": "Rocky Helmet",
+      "ability": "Psychic Surge",
+      "level": 50,
+      "tera_type": "Fairy",
+      "nature": "Bold",
+      "evs": [
+        252,
+        0,
+        252,
+        0,
+        4,
+        0
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        28
+      ],
+      "moves": [
+        "Trick Room",
+        "Dazzling Gleam",
+        "Follow Me",
+        "Helping Hand"
+      ]
+    },
+    {
+      "name": "Sneasler",
+      "nickname": "",
+      "gender": "F",
+      "item": "Psychic Seed",
+      "ability": "Unburden",
+      "level": 50,
+      "tera_type": "Rock",
+      "nature": "Adamant",
+      "evs": [
+        4,
+        252,
+        0,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Dire Claw",
+        "Close Combat",
+        "Protect",
+        "Rock Slide"
+      ]
+    },
+    {
+      "name": "Flutter Mane",
+      "nickname": "",
+      "gender": "",
+      "item": "Choice Specs",
+      "ability": "Protosynthesis",
+      "level": 50,
+      "tera_type": "Fairy",
+      "nature": "Modest",
+      "evs": [
+        0,
+        0,
+        4,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Dazzling Gleam",
+        "Shadow Ball",
+        "Moonblast",
+        "Thunderbolt"
+      ]
+    },
+    {
+      "name": "Iron Bundle",
+      "nickname": "",
+      "gender": "",
+      "item": "Booster Energy",
+      "ability": "Quark Drive",
+      "level": 50,
+      "tera_type": "Grass",
+      "nature": "Timid",
+      "evs": [
+        4,
+        0,
+        0,
+        252,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        0,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Icy Wind",
+        "Flip Turn",
+        "Protect",
+        "Hydro Pump"
+      ]
+    },
+    {
+      "name": "Urshifu",
+      "nickname": "",
+      "gender": "F",
+      "item": "Focus Sash",
+      "ability": "Unseen Fist",
+      "level": 50,
+      "tera_type": "Dark",
+      "nature": "Adamant",
+      "evs": [
+        4,
+        252,
+        0,
+        0,
+        0,
+        252
+      ],
+      "ivs": [
+        31,
+        31,
+        31,
+        31,
+        31,
+        31
+      ],
+      "moves": [
+        "Wicked Blow",
+        "Close Combat",
+        "Sucker Punch",
+        "Detect"
+      ]
+    }
+  ],
+  "created_at": "2025-11-18T13:48:13.358098Z",
+  "updated_at": "2025-11-18T13:48:13.358098Z"
+}
