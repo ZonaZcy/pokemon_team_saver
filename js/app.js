@@ -512,7 +512,7 @@ class TeamManagerApp {
                 </p>` : ''}
 
                 ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px;">
-                    <strong>太晶属性:</strong> ${this.utils.translate(pokemon.tera_type)}
+                    <strong>太晶属性:</strong> <span class="type-badge type-${pokemon.tera_type}">${this.utils.translate(pokemon.tera_type)}</span>
                 </p>` : ''}
             </div>
         `;
@@ -1475,7 +1475,7 @@ class TeamManagerApp {
                 </p>` : ''}
 
                 ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px;">
-                    <strong>太晶属性:</strong> ${this.utils.translate(pokemon.tera_type)}
+                    <strong>太晶属性:</strong> <span class="type-badge type-${pokemon.tera_type}">${this.utils.translate(pokemon.tera_type)}</span>
                 </p>` : ''}
             </div>
         `;
