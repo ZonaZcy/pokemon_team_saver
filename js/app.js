@@ -429,91 +429,120 @@ class TeamManagerApp {
             </div>` :
             '<span style="color: #999;">无道具</span>';
 
-        // EVs显示（包括0值）
+        // EVs显示（显示所有值，并根据性格显示颜色）
         const evs = this.utils.formatEVs(pokemon.evs);
         const evTotal = evs.reduce((sum, ev) => sum + ev.value, 0);
+        const natureModifiers = pokemon.nature ? this.utils.getNatureModifiers(pokemon.nature) : { boosted: null, reduced: null };
+
+        // 显示所有EVs（6个属性值）
         const evsHTML = `
-            <div style="margin-top: 12px;">
-                <label style="font-size: 12px; color: #666; font-weight: bold;">努力值 (EVs):</label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 5px;">
-                    ${evs.map(ev => `
-                        <div style="font-size: 13px;">
-                            <span style="font-weight: bold; color: ${ev.value > 0 ? '#4caf50' : '#999'};">${ev.statChinese}:</span>
-                            <span style="color: ${ev.value > 0 ? '#333' : '#999'};">${ev.value}</span>
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
+                ${evs.map((ev, statIndex) => {
+                    let color = '#adb5bd';
+                    let fontWeight = '500';
+
+                    // 根据性格设置颜色：蓝色=加成，红色=减成
+                    if (ev.value > 0) {
+                        if (statIndex === natureModifiers.boosted) {
+                            color = '#4A9EFF'; // 蓝色 - 加成
+                            fontWeight = '700';
+                        } else if (statIndex === natureModifiers.reduced) {
+                            color = '#FF6B6B'; // 红色 - 减成
+                            fontWeight = '700';
+                        } else {
+                            color = '#4ADE80'; // 绿色 - 有EVs但无性格影响
+                            fontWeight = '600';
+                        }
+                    }
+
+                    return `
+                        <div style="text-align: center;">
+                            <div style="font-size: 11px; color: #6c757d; font-weight: 600;">${ev.statChinese}</div>
+                            <div style="font-size: 16px; font-weight: ${fontWeight}; color: ${color}; margin-top: 2px;">${ev.value}</div>
                         </div>
-                    `).join('')}
-                </div>
-                <div style="margin-top: 5px; font-size: 12px; color: ${evTotal > 510 ? '#f44336' : '#666'};">
-                    总计: ${evTotal} / 510
-                </div>
+                    `;
+                }).join('')}
             </div>
         `;
 
-        // IVs显示（仅显示非31的）
-        const ivs = this.utils.formatIVs(pokemon.ivs);
-        const ivsHTML = ivs.length > 0 ? `
-            <div style="margin-top: 10px;">
-                <label style="font-size: 12px; color: #666; font-weight: bold;">个体值 (IVs):</label>
-                <div style="display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap;">
-                    ${ivs.map(iv => `
-                        <span style="font-size: 13px;">
-                            <span style="font-weight: bold; color: #ff9800;">${iv.statChinese}:</span>
-                            <span>${iv.value}</span>
-                        </span>
-                    `).join('')}
-                </div>
+        // IVs显示（显示所有值，突出显示非31的）
+        const allIvs = pokemon.ivs || [31, 31, 31, 31, 31, 31];
+        const ivsHTML = `
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
+                ${allIvs.map((iv, idx) => {
+                    const statName = this.utils.statNamesChinese[idx];
+                    const actualIv = (iv === undefined || iv === null) ? 31 : iv;
+                    const color = actualIv === 31 ? '#6c757d' : '#FFA94D';
+                    const fontWeight = actualIv === 31 ? '500' : '700';
+
+                    return `
+                        <div style="text-align: center;">
+                            <div style="font-size: 16px; font-weight: ${fontWeight}; color: ${color};">${actualIv}</div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+
+        // 性格翻译和显示
+        const natureCN = this.utils.translate(pokemon.nature);
+        const natureHTML = pokemon.nature ? `
+            <span style="font-size: 13px; color: #f8f9fa;">
+                <strong>性格:</strong> ${natureCN}
+            </span>
+        ` : '';
+
+        // 太晶属性圆形徽章
+        const teraHTML = pokemon.tera_type ? `
+            <div style="position: absolute; top: 15px; right: 15px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);" class="type-${pokemon.tera_type}">
+                <span style="font-size: 11px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${this.utils.translate(pokemon.tera_type)}</span>
             </div>
         ` : '';
 
-        // 性格翻译
-        const natureCN = this.utils.translate(pokemon.nature);
-
         return `
-            <div style="background: #fafafa; border: 2px solid #e0e0e0; border-radius: 8px; padding: 15px; position: relative;">
+            <div style="background: linear-gradient(135deg, rgba(45, 52, 84, 0.6) 0%, rgba(53, 61, 96, 0.6) 100%); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; position: relative; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                ${teraHTML}
+
                 <button onclick="app.editPokemon('${this.escapeHtml(teamId)}', ${idx})"
                         class="button button-sm"
-                        style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                    <i class="fa fa-edit"></i> 编辑
+                        style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+                    <i class="fa fa-edit"></i>
                 </button>
 
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0;">
-                    <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px;"></div>
-                    <div>
-                        <h3 style="margin: 0; font-size: 18px;">${this.escapeHtml(nameCN)}</h3>
-                        <p style="margin: 2px 0 0 0; font-size: 12px; color: #999;">${this.escapeHtml(pokemon.name)}</p>
-                        ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #666; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
+                    <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px; transform: scale(1.8);"></div>
+                    <div style="flex: 1; margin-left: 20px;">
+                        <h3 style="margin: 0; font-size: 20px; color: #f8f9fa; font-weight: 700;">${this.escapeHtml(nameCN)}</h3>
+                        ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #adb5bd; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
+                        <div style="display: flex; gap: 12px; margin-top: 6px; align-items: center; flex-wrap: wrap;">
+                            ${abilityHTML}
+                            ${itemHTML}
+                        </div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666; font-weight: bold;">特性</label>
-                        <div>${abilityHTML}</div>
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666; font-weight: bold;">道具</label>
-                        <div>${itemHTML}</div>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-size: 12px; color: #666; font-weight: bold; display: block; margin-bottom: 6px;">招式</label>
+                <div style="margin-bottom: 10px;">
                     <div class="pokemon-moves">
-                        ${movesHTML || '<p style="color: #999; font-size: 13px;">无招式</p>'}
+                        ${movesHTML || '<p style="color: #6c757d; font-size: 13px;">无招式</p>'}
                     </div>
                 </div>
 
-                ${evsHTML}
-                ${ivsHTML}
-
-                ${pokemon.nature ? `<p style="margin-top: 10px; font-size: 13px;">
-                    <strong>性格:</strong> ${natureCN}
-                    <span style="color: #999;">(${pokemon.nature})</span>
-                </p>` : ''}
-
-                ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px;">
-                    <strong>太晶属性:</strong> <span class="type-badge type-${pokemon.tera_type}">${this.utils.translate(pokemon.tera_type)}</span>
-                </p>` : ''}
+                <div style="margin-top: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 10px;">
+                    ${natureHTML}
+                    <div style="margin-top: 8px;">
+                        <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
+                            <i class="fa fa-bar-chart"></i> EVs (努力值)
+                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">总计: ${evTotal}/510</span>` : ''}
+                        </div>
+                        ${evsHTML}
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
+                            <i class="fa fa-star"></i> IVs (个体值)
+                        </div>
+                        ${ivsHTML}
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -1403,78 +1432,98 @@ class TeamManagerApp {
 
         const evs = this.utils.formatEVs(pokemon.evs);
         const evTotal = evs.reduce((sum, ev) => sum + ev.value, 0);
+        const natureModifiers = pokemon.nature ? this.utils.getNatureModifiers(pokemon.nature) : { boosted: null, reduced: null };
+
+        // 显示所有EVs（6个属性值）
         const evsHTML = `
-            <div style="margin-top: 12px;">
-                <label style="font-size: 12px; color: #666; font-weight: bold;">努力值 (EVs):</label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 5px;">
-                    ${evs.map(ev => `
-                        <div style="font-size: 13px;">
-                            <span style="font-weight: bold; color: ${ev.value > 0 ? '#4caf50' : '#999'};\">${ev.statChinese}:</span>
-                            <span style="color: ${ev.value > 0 ? '#333' : '#999'};\">${ev.value}</span>
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
+                ${evs.map((ev, statIndex) => {
+                    let color = '#adb5bd';
+                    let fontWeight = '500';
+
+                    // 根据性格设置颜色：蓝色=加成，红色=减成
+                    if (ev.value > 0) {
+                        if (statIndex === natureModifiers.boosted) {
+                            color = '#4A9EFF'; // 蓝色 - 加成
+                            fontWeight = '700';
+                        } else if (statIndex === natureModifiers.reduced) {
+                            color = '#FF6B6B'; // 红色 - 减成
+                            fontWeight = '700';
+                        } else {
+                            color = '#4ADE80'; // 绿色 - 有EVs但无性格影响
+                            fontWeight = '600';
+                        }
+                    }
+
+                    return `
+                        <div style="text-align: center;">
+                            <div style="font-size: 11px; color: #6c757d; font-weight: 600;">${ev.statChinese}</div>
+                            <div style="font-size: 16px; font-weight: ${fontWeight}; color: ${color}; margin-top: 2px;">${ev.value}</div>
                         </div>
-                    `).join('')}
-                </div>
-                <div style="margin-top: 5px; font-size: 12px; color: ${evTotal > 510 ? '#f44336' : '#666'};">
-                    总计: ${evTotal} / 510
-                </div>
+                    `;
+                }).join('')}
             </div>
         `;
 
-        const ivs = this.utils.formatIVs(pokemon.ivs);
-        const ivsHTML = ivs.length > 0 ? `
-            <div style="margin-top: 10px;">
-                <label style="font-size: 12px; color: #666; font-weight: bold;">个体值 (IVs):</label>
-                <div style="display: flex; gap: 12px; margin-top: 5px; flex-wrap: wrap;">
-                    ${ivs.map(iv => `
-                        <span style="font-size: 13px;">
-                            <span style="font-weight: bold; color: #ff9800;">${iv.statChinese}:</span>
-                            <span>${iv.value}</span>
-                        </span>
-                    `).join('')}
-                </div>
+        // IVs显示（显示所有值，突出显示非31的）
+        const allIvs = pokemon.ivs || [31, 31, 31, 31, 31, 31];
+        const ivsHTML = `
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
+                ${allIvs.map((iv, idx) => {
+                    const statName = this.utils.statNamesChinese[idx];
+                    const actualIv = (iv === undefined || iv === null) ? 31 : iv;
+                    const color = actualIv === 31 ? '#6c757d' : '#FFA94D';
+                    const fontWeight = actualIv === 31 ? '500' : '700';
+
+                    return `
+                        <div style="text-align: center;">
+                            <div style="font-size: 16px; font-weight: ${fontWeight}; color: ${color};">${actualIv}</div>
+                        </div>
+                    `;
+                }).join('')}
             </div>
-        ` : '';
+        `;
 
         const natureCN = this.utils.translate(pokemon.nature);
 
         return `
-            <div style="background: #fafafa; border: 2px solid #e0e0e0; border-radius: 8px; padding: 15px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0;">
+            <div style="background: linear-gradient(135deg, rgba(45, 52, 84, 0.6) 0%, rgba(53, 61, 96, 0.6) 100%); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
                     <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px;"></div>
                     <div>
-                        <h3 style="margin: 0; font-size: 18px;">${this.escapeHtml(nameCN)}</h3>
-                        <p style="margin: 2px 0 0 0; font-size: 12px; color: #999;">${this.escapeHtml(pokemon.name)}</p>
-                        ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #666; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
+                        <h3 style="margin: 0; font-size: 18px; color: #f8f9fa;">${this.escapeHtml(nameCN)}</h3>
+                        <p style="margin: 2px 0 0 0; font-size: 12px; color: #adb5bd;">${this.escapeHtml(pokemon.name)}</p>
+                        ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #adb5bd; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
                     </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                     <div>
-                        <label style="font-size: 12px; color: #666; font-weight: bold;">特性</label>
+                        <label style="font-size: 12px; color: #adb5bd; font-weight: bold;">特性</label>
                         <div>${abilityHTML}</div>
                     </div>
                     <div>
-                        <label style="font-size: 12px; color: #666; font-weight: bold;">道具</label>
+                        <label style="font-size: 12px; color: #adb5bd; font-weight: bold;">道具</label>
                         <div>${itemHTML}</div>
                     </div>
                 </div>
 
                 <div>
-                    <label style="font-size: 12px; color: #666; font-weight: bold; display: block; margin-bottom: 6px;">招式</label>
+                    <label style="font-size: 12px; color: #adb5bd; font-weight: bold; display: block; margin-bottom: 6px;">招式</label>
                     <div class="pokemon-moves">
-                        ${movesHTML || '<p style="color: #999; font-size: 13px;">无招式</p>'}
+                        ${movesHTML || '<p style="color: #6c757d; font-size: 13px;">无招式</p>'}
                     </div>
                 </div>
 
                 ${evsHTML}
                 ${ivsHTML}
 
-                ${pokemon.nature ? `<p style="margin-top: 10px; font-size: 13px;">
+                ${pokemon.nature ? `<p style="margin-top: 10px; font-size: 13px; color: #f8f9fa;">
                     <strong>性格:</strong> ${natureCN}
-                    <span style="color: #999;">(${pokemon.nature})</span>
+                    <span style="color: #adb5bd;">(${pokemon.nature})</span>
                 </p>` : ''}
 
-                ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px;">
+                ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px; color: #f8f9fa;">
                     <strong>太晶属性:</strong> <span class="type-badge type-${pokemon.tera_type}">${this.utils.translate(pokemon.tera_type)}</span>
                 </p>` : ''}
             </div>

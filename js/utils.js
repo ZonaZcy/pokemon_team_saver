@@ -245,6 +245,55 @@ class PokemonUtils {
     }
 
     /**
+     * 获取性格加减成信息
+     * 返回 { boosted, reduced } 索引（0-5）
+     */
+    getNatureModifiers(nature) {
+        if (!nature) return { boosted: null, reduced: null };
+
+        const natureData = {
+            // 中性性格（无加减成）
+            'Hardy': { boosted: null, reduced: null },
+            'Docile': { boosted: null, reduced: null },
+            'Serious': { boosted: null, reduced: null },
+            'Bashful': { boosted: null, reduced: null },
+            'Quirky': { boosted: null, reduced: null },
+
+            // +攻击
+            'Lonely': { boosted: 1, reduced: 2 },   // +Atk -Def
+            'Brave': { boosted: 1, reduced: 5 },    // +Atk -Spe
+            'Adamant': { boosted: 1, reduced: 3 },  // +Atk -SpA
+            'Naughty': { boosted: 1, reduced: 4 },  // +Atk -SpD
+
+            // +防御
+            'Bold': { boosted: 2, reduced: 1 },     // +Def -Atk
+            'Relaxed': { boosted: 2, reduced: 5 },  // +Def -Spe
+            'Impish': { boosted: 2, reduced: 3 },   // +Def -SpA
+            'Lax': { boosted: 2, reduced: 4 },      // +Def -SpD
+
+            // +特攻
+            'Modest': { boosted: 3, reduced: 1 },   // +SpA -Atk
+            'Mild': { boosted: 3, reduced: 2 },     // +SpA -Def
+            'Quiet': { boosted: 3, reduced: 5 },    // +SpA -Spe
+            'Rash': { boosted: 3, reduced: 4 },     // +SpA -SpD
+
+            // +特防
+            'Calm': { boosted: 4, reduced: 1 },     // +SpD -Atk
+            'Gentle': { boosted: 4, reduced: 2 },   // +SpD -Def
+            'Sassy': { boosted: 4, reduced: 5 },    // +SpD -Spe
+            'Careful': { boosted: 4, reduced: 3 },  // +SpD -SpA
+
+            // +速度
+            'Timid': { boosted: 5, reduced: 1 },    // +Spe -Atk
+            'Hasty': { boosted: 5, reduced: 2 },    // +Spe -Def
+            'Jolly': { boosted: 5, reduced: 3 },    // +Spe -SpA
+            'Naive': { boosted: 5, reduced: 4 }     // +Spe -SpD
+        };
+
+        return natureData[nature] || { boosted: null, reduced: null };
+    }
+
+    /**
      * 转义HTML
      */
     escapeHtml(text) {

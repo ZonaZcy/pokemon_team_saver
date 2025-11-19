@@ -1,35 +1,41 @@
 /* ==========================================
-   Apple Design System - 宝可梦队伍管理器
+   Modern Dark Design - 宝可梦队伍管理器
    ========================================== */
 
-/* CSS 变量 - Apple 设计系统颜色 */
+/* CSS 变量 - 现代深色主题 */
 :root {
     /* 系统颜色 */
-    --apple-blue: #007AFF;
-    --apple-green: #34C759;
-    --apple-orange: #FF9500;
-    --apple-red: #FF3B30;
-    --apple-purple: #AF52DE;
-    --apple-pink: #FF2D55;
+    --apple-blue: #4A9EFF;
+    --apple-green: #4ADE80;
+    --apple-orange: #FFA94D;
+    --apple-red: #FF6B6B;
+    --apple-purple: #A78BFA;
+    --apple-pink: #F472B6;
 
-    /* 中性色 */
-    --bg-primary: #f5f5f7;
-    --bg-secondary: #ffffff;
-    --surface: #ffffff;
-    --surface-hover: #f9f9f9;
+    /* 深色主题背景 */
+    --bg-primary: #1a1f35;
+    --bg-secondary: #232942;
+    --surface: #2d3454;
+    --surface-hover: #363d5f;
 
     /* 文字颜色 */
-    --text-primary: #1d1d1f;
-    --text-secondary: #86868b;
-    --text-tertiary: #d2d2d7;
+    --text-primary: #f8f9fa;
+    --text-secondary: #adb5bd;
+    --text-tertiary: #6c757d;
 
     /* 分隔线 */
-    --separator: rgba(0, 0, 0, 0.1);
+    --separator: rgba(255, 255, 255, 0.1);
 
     /* 阴影 */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    /* 渐变色 */
+    --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-green: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    --gradient-orange: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-purple: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 
     /* 字体 */
     --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
@@ -65,14 +71,15 @@ body {
 }
 
 /* ==========================================
-   头部区域 - Apple 风格大标题
+   头部区域 - 现代深色风格
    ========================================== */
 header {
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #3d4466 100%);
     border-radius: 20px;
     padding: 40px;
     margin-bottom: 32px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 header h1 {
@@ -97,7 +104,7 @@ header p {
 }
 
 header p span {
-    background: rgba(0, 122, 255, 0.1);
+    background: rgba(74, 158, 255, 0.15);
     color: var(--apple-blue);
     padding: 6px 14px;
     border-radius: 20px;
@@ -107,7 +114,7 @@ header p span {
 }
 
 /* ==========================================
-   统计卡片 - 毛玻璃效果
+   统计卡片 - 现代深色卡片
    ========================================== */
 .stats-overview {
     display: grid;
@@ -117,18 +124,19 @@ header p span {
 }
 
 .stat-card {
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #3a4266 100%);
     border-radius: 16px;
     padding: 28px 24px;
     text-align: center;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid var(--separator);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 24px rgba(74, 158, 255, 0.3);
+    border-color: rgba(74, 158, 255, 0.3);
 }
 
 .stat-value {
@@ -137,6 +145,7 @@ header p span {
     color: var(--apple-blue);
     letter-spacing: -0.02em;
     line-height: 1.1;
+    text-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
 }
 
 .stat-label {
@@ -154,11 +163,12 @@ header p span {
 }
 
 .teams-toolbar {
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #3a4266 100%);
     border-radius: 16px;
     padding: 20px 24px;
     margin-bottom: 24px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -183,12 +193,12 @@ header p span {
 }
 
 /* ==========================================
-   Apple 风格按钮
+   按钮 - 现代深色风格
    ========================================== */
 .button {
     padding: 10px 20px;
     border: none;
-    background: var(--surface-hover);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     cursor: pointer;
     font-size: 15px;
@@ -201,12 +211,14 @@ header p span {
     color: var(--text-primary);
     font-family: var(--font-system);
     letter-spacing: -0.022em;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .button:hover {
-    background: #e8e8ed;
+    background: rgba(255, 255, 255, 0.15);
     transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .button:active {
@@ -214,23 +226,25 @@ header p span {
 }
 
 .button-primary {
-    background: var(--apple-blue);
+    background: linear-gradient(135deg, #4A9EFF 0%, #667eea 100%);
     color: white;
+    border: none;
 }
 
 .button-primary:hover {
-    background: #0051d5;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+    background: linear-gradient(135deg, #3a8eef 0%, #5568d3 100%);
+    box-shadow: 0 4px 16px rgba(74, 158, 255, 0.5);
 }
 
 .button-danger {
-    background: var(--apple-red);
+    background: linear-gradient(135deg, #FF6B6B 0%, #ee5a6f 100%);
     color: white;
+    border: none;
 }
 
 .button-danger:hover {
-    background: #d70015;
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+    background: linear-gradient(135deg, #ef5b5b 0%, #de4a5f 100%);
+    box-shadow: 0 4px 16px rgba(255, 107, 107, 0.5);
 }
 
 .button-sm {
@@ -255,16 +269,16 @@ header p span {
 }
 
 /* ==========================================
-   输入框 - Apple 风格
+   输入框 - 深色主题
    ========================================== */
 .textbox, .textarea, .select {
     padding: 12px 16px;
-    border: 1px solid var(--separator);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     font-size: 15px;
     width: 100%;
     font-family: var(--font-system);
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
     transition: all 0.2s;
     -webkit-appearance: none;
@@ -273,7 +287,8 @@ header p span {
 .textbox:focus, .textarea:focus, .select:focus {
     outline: none;
     border-color: var(--apple-blue);
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.15);
 }
 
 .textbox::placeholder, .textarea::placeholder {
@@ -296,20 +311,39 @@ header p span {
 }
 
 /* ==========================================
-   队伍卡片 - Apple 卡片设计
+   队伍卡片 - 现代深色设计
    ========================================== */
 .team-card {
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #353d60 100%);
     border-radius: 20px;
     padding: 24px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid var(--separator);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .team-card:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    border-color: rgba(74, 158, 255, 0.3);
+}
+
+.team-card:hover::before {
+    opacity: 1;
 }
 
 .team-card-header {
@@ -368,21 +402,24 @@ header p span {
 .pokemon-mini {
     width: 100%;
     aspect-ratio: 1;
-    background: var(--bg-primary);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1.5px solid var(--separator);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    min-width: 0; /* 防止内容溢出 */
+    min-width: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .pokemon-mini:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
     border-color: var(--apple-blue);
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+    background: rgba(74, 158, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4),
+                inset 0 2px 4px rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
@@ -397,13 +434,13 @@ header p span {
 }
 
 .tag {
-    background: var(--bg-primary);
+    background: rgba(255, 255, 255, 0.1);
     padding: 6px 12px;
     border-radius: 12px;
     font-size: 13px;
     color: var(--text-secondary);
     font-weight: 500;
-    border: 1px solid var(--separator);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* ==========================================
@@ -437,9 +474,10 @@ header p span {
 .empty-state {
     text-align: center;
     padding: 80px 40px;
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #353d60 100%);
     border-radius: 20px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .empty-state i {
@@ -460,7 +498,7 @@ header p span {
 }
 
 /* ==========================================
-   模态框 - Apple 风格
+   模态框 - 深色主题
    ========================================== */
 .modal {
     display: none;
@@ -471,7 +509,7 @@ header p span {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     animation: fadeIn 0.2s ease-out;
@@ -493,13 +531,14 @@ header p span {
 }
 
 .modal-content {
-    background: var(--surface);
+    background: linear-gradient(135deg, #2d3454 0%, #353d60 100%);
     margin: 40px;
     border-radius: 20px;
     width: 90%;
     max-width: 640px;
     box-shadow: var(--shadow-lg);
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* 队伍查看模态框 - 更宽 */
@@ -535,7 +574,7 @@ header p span {
 }
 
 .close-button {
-    background: var(--bg-primary);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     width: 32px;
     height: 32px;
@@ -547,10 +586,11 @@ header p span {
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .close-button:hover {
-    background: #e0e0e5;
+    background: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
 }
 
@@ -596,13 +636,14 @@ header p span {
 .team-view-info {
     margin-bottom: 20px;
     padding: 12px;
-    background: var(--bg-primary);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .team-view-description {
@@ -729,10 +770,10 @@ header p span {
 }
 
 .pokemon-move {
-    background: var(--bg-primary);
+    background: rgba(0, 0, 0, 0.3);
     padding: 10px 14px;
     border-radius: 12px;
-    border: 1px solid var(--separator);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -742,10 +783,10 @@ header p span {
 }
 
 .pokemon-move:hover {
-    background: var(--surface-hover);
+    background: rgba(74, 158, 255, 0.15);
     border-color: var(--apple-blue);
     transform: translateX(4px);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
 }
 
 .pokemon-move-name {
@@ -762,33 +803,33 @@ header p span {
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
-    background: rgba(0, 122, 255, 0.08);
+    background: rgba(74, 158, 255, 0.15);
     padding: 8px 14px;
     border-radius: 12px;
     font-size: 14px;
-    border: 1px solid rgba(0, 122, 255, 0.2);
+    border: 1px solid rgba(74, 158, 255, 0.3);
     color: var(--apple-blue);
     font-weight: 600;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ability-display:hover, .item-display:hover {
-    background: rgba(0, 122, 255, 0.15);
+    background: rgba(74, 158, 255, 0.25);
     transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
 }
 
 .item-display {
-    background: rgba(255, 149, 0, 0.08);
-    border-color: rgba(255, 149, 0, 0.2);
+    background: rgba(255, 169, 77, 0.15);
+    border-color: rgba(255, 169, 77, 0.3);
     color: var(--apple-orange);
     flex-direction: row;
     align-items: center;
 }
 
 .item-display:hover {
-    background: rgba(255, 149, 0, 0.15);
-    box-shadow: 0 2px 8px rgba(255, 149, 0, 0.2);
+    background: rgba(255, 169, 77, 0.25);
+    box-shadow: 0 4px 12px rgba(255, 169, 77, 0.4);
 }
 
 /* ==========================================
@@ -804,6 +845,7 @@ header p span {
     font-size: 40px;
     color: var(--apple-blue);
     animation: spin 1s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(74, 158, 255, 0.5));
 }
 
 @keyframes spin {
@@ -1129,13 +1171,72 @@ header p span {
 }
 
 /* ==========================================
+   Stats Grid Display
+   ========================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.stat-cell {
+    text-align: center;
+    padding: 6px 4px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.stat-cell:hover {
+    background: rgba(74, 158, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 4px;
+    color: var(--text-primary);
+}
+
+.stat-value.boosted {
+    color: #4A9EFF; /* 蓝色 - 性格加成 */
+}
+
+.stat-value.reduced {
+    color: #FF6B6B; /* 红色 - 性格减成 */
+}
+
+.stat-value.trained {
+    color: #4ADE80;
+}
+
+.stat-value.perfect {
+    color: #6c757d;
+}
+
+.stat-value.imperfect {
+    color: #FFA94D;
+}
+
+/* ==========================================
    工具类
    ========================================== */
 .hidden {
     display: none !important;
 }
 
-/* 滚动条美化 */
+/* 滚动条美化 - 深色主题 */
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -1146,14 +1247,14 @@ header p span {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 6px;
     border: 3px solid transparent;
     background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.3);
     border: 3px solid transparent;
     background-clip: content-box;
 }
