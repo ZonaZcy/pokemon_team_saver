@@ -16,6 +16,9 @@ class TeamManagerApp {
     }
 
     async init() {
+        // 初始化 Toast 容器
+        this.initToastContainer();
+
         // 加载所有数据
         await Promise.all([
             this.utils.init(),
@@ -33,6 +36,279 @@ class TeamManagerApp {
 
         // 绑定事件
         this.bindEvents();
+
+        // 绑定键盘事件
+        this.bindKeyboardEvents();
+
+        // 初始化UI特效（滚动进度条、波纹效果）
+        this.initUIEffects();
+
+        // 初始化 Konami Code 彩蛋
+        this.initKonamiCode();
+    }
+
+    initToastContainer() {
+        // 在 HTML body 底部插入容器（如果不存在）
+        if (!document.getElementById('toast-container')) {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            document.body.appendChild(container);
+        }
+    }
+
+    showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        // 图标映射
+        const icons = {
+            info: '<i class="fa fa-info-circle"></i>',
+            success: '<i class="fa fa-check-circle"></i>',
+            error: '<i class="fa fa-times-circle"></i>',
+            warning: '<i class="fa fa-exclamation-triangle"></i>'
+        };
+
+        const toast = document.createElement('div');
+        toast.className = `toast-message toast-${type}`;
+        toast.innerHTML = `
+            ${icons[type] || icons.info}
+            <span>${this.escapeHtml(message)}</span>
+        `;
+
+        container.appendChild(toast);
+
+        // 强制重绘以触发 CSS transition
+        toast.offsetHeight;
+        toast.classList.add('show');
+
+        // 3秒后自动消失
+        setTimeout(() => {
+            toast.classList.remove('show');
+            // 等待动画结束后从 DOM 移除
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
+    bindKeyboardEvents() {
+        // ESC 键关闭模态框
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                // 查找当前可见的模态框
+                const visibleModal = document.querySelector('.modal.show');
+                if (visibleModal) {
+                    const closeButton = visibleModal.querySelector('.close-button');
+                    if (closeButton) {
+                        closeButton.click();
+                    } else {
+                        // 如果没有关闭按钮，直接移除模态框
+                        visibleModal.classList.remove('show');
+                        visibleModal.style.display = 'none';
+                        if (visibleModal.id !== 'importDialog' && visibleModal.id !== 'cloudLibraryDialog') {
+                            visibleModal.remove();
+                        }
+                    }
+                }
+            }
+        });
+
+        // EVs 输入限制 (0-252)
+        document.addEventListener('input', (e) => {
+            if (e.target.id && e.target.id.startsWith('editPokemonEV')) {
+                let val = e.target.value;
+                // 移除非数字字符
+                val = val.replace(/[^0-9]/g, '');
+
+                // 转换为数字并限制范围
+                if (val !== '') {
+                    let num = parseInt(val, 10);
+                    if (num > 252) num = 252;
+                    if (num < 0) num = 0;
+
+                    if (e.target.value != num.toString()) {
+                        e.target.value = num;
+                    }
+                }
+
+                // 触发EV总计更新
+                this.updateEVTotal();
+            }
+        });
+
+        // IVs 输入限制 (0-31)
+        document.addEventListener('input', (e) => {
+            if (e.target.id && e.target.id.startsWith('editPokemonIV')) {
+                let val = e.target.value;
+                val = val.replace(/[^0-9]/g, '');
+
+                if (val !== '') {
+                    let num = parseInt(val, 10);
+                    if (num > 31) num = 31;
+                    if (num < 0) num = 0;
+
+                    if (e.target.value != num.toString()) {
+                        e.target.value = num;
+                    }
+                }
+            }
+        });
+
+        // 等级输入限制 (1-100)
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'editPokemonLevel') {
+                let val = e.target.value;
+                val = val.replace(/[^0-9]/g, '');
+
+                if (val !== '') {
+                    let num = parseInt(val, 10);
+                    if (num > 100) num = 100;
+                    if (num < 1) num = 1;
+
+                    if (e.target.value != num.toString()) {
+                        e.target.value = num;
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 初始化UI特效：滚动进度条和波纹效果
+     */
+    initUIEffects() {
+        // --- 1. 页面滚动进度条 ---
+        $(window).on('scroll', () => {
+            const scrollTop = $(window).scrollTop();
+            const docHeight = $(document).height();
+            const winHeight = $(window).height();
+
+            // 防止分母为0
+            const scrollPercent = (docHeight - winHeight) <= 0 ? 0 : (scrollTop / (docHeight - winHeight)) * 100;
+
+            $('#scroll-progress-bar').css('width', scrollPercent + '%');
+        });
+
+        // --- 2. 按钮波纹效果 ---
+        // 使用事件委托，确保动态生成的按钮也有效果
+        $(document).on('click', 'button, .btn, .team-card', function(e) {
+            const $btn = $(this);
+
+            // 创建波纹元素
+            const $ripple = $('<span class="ripple-effect"></span>');
+
+            // 计算点击位置
+            const offset = $btn.offset();
+            const x = e.pageX - offset.left;
+            const y = e.pageY - offset.top;
+
+            // 设置大小（取宽高的最大值，确保覆盖）
+            const size = Math.max($btn.outerWidth(), $btn.outerHeight());
+
+            $ripple.css({
+                top: y - size / 2 + 'px',
+                left: x - size / 2 + 'px',
+                width: size + 'px',
+                height: size + 'px'
+            });
+
+            // 添加到按钮并自动移除
+            $btn.append($ripple);
+
+            // 动画结束后移除 DOM
+            setTimeout(() => {
+                $ripple.remove();
+            }, 600);
+        });
+
+        // --- 3. 3D 视差卡片效果 ---
+        this.init3DParallax();
+    }
+
+    /**
+     * 3D 视差效果 - Apple TV 风格
+     */
+    init3DParallax() {
+        // 使用事件委托处理动态生成的卡片
+        $(document).on('mousemove', '.team-card', function(e) {
+            const $card = $(this);
+            const width = $card.outerWidth();
+            const height = $card.outerHeight();
+
+            // 计算鼠标在卡片内的相对坐标
+            const offset = $card.offset();
+            const x = e.pageX - offset.left;
+            const y = e.pageY - offset.top;
+
+            // 计算旋转角度 (范围: -10deg 到 10deg)
+            // X轴：鼠标在上方，卡片向上倾斜（正旋转）
+            // Y轴：鼠标在右侧，卡片向右倾斜（正旋转）
+            const rotateY = ((x / width) * 20 - 10).toFixed(2);
+            const rotateX = (-(y / height) * 20 + 10).toFixed(2);
+
+            // 设置光泽层位置
+            let $glare = $card.find('.card-glare');
+            if ($glare.length === 0) {
+                $card.append('<div class="card-glare"></div>');
+                $glare = $card.find('.card-glare');
+            }
+
+            // 光泽跟随鼠标移动
+            $glare.css({
+                'background': `radial-gradient(circle at ${(x / width * 100).toFixed(0)}% ${(y / height * 100).toFixed(0)}%, rgba(255, 255, 255, 0.3), transparent 60%)`,
+                'opacity': '1'
+            });
+
+            // 应用 3D 变换
+            $card.css('transform', `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`);
+        });
+
+        // 鼠标离开时复位
+        $(document).on('mouseleave', '.team-card', function() {
+            const $card = $(this);
+            $card.css('transform', 'perspective(1000px) rotateX(0) rotateY(0) scale(1)');
+            $card.find('.card-glare').css('opacity', '0');
+        });
+    }
+
+    /**
+     * 数字滚动动画
+     */
+    animateNumber($element, finalValue) {
+        // 获取当前显示的数值，如果没有则默认为0
+        const startValue = parseInt($element.text()) || 0;
+
+        // 如果数值没变，不执行动画
+        if (startValue === finalValue) return;
+
+        // 使用 jQuery 的 animate 方法来平滑过渡数值
+        $({ val: startValue }).animate({ val: finalValue }, {
+            duration: 1500, // 1.5秒完成
+            easing: 'swing', // 缓动效果
+            step: function() {
+                // 每一步更新文本
+                $element.text(Math.floor(this.val));
+            },
+            complete: function() {
+                // 确保最终数值准确
+                $element.text(finalValue);
+            }
+        });
+    }
+
+    renderSkeletons(count = 6) {
+        let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px;">';
+        for (let i = 0; i < count; i++) {
+            html += `
+                <div class="skeleton-card">
+                    <div class="skeleton-pulse sk-title"></div>
+                    <div class="skeleton-pulse sk-tags"></div>
+                    <div class="sk-mons-row">
+                        ${'<div class="skeleton-pulse sk-mon"></div>'.repeat(6)}
+                    </div>
+                </div>
+            `;
+        }
+        html += '</div>';
+        return html;
     }
 
     populateFormatList() {
@@ -105,13 +381,19 @@ class TeamManagerApp {
     }
 
     bindEvents() {
-        // 搜索
+        // 搜索 - 添加实时聚光灯效果
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
+            // 保留原有的回车搜索
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.searchTeams();
                 }
+            });
+
+            // 添加实时聚光灯效果
+            searchInput.addEventListener('input', (e) => {
+                this.applySpotlightSearch(e.target.value);
             });
         }
 
@@ -141,9 +423,21 @@ class TeamManagerApp {
         // 渲染队伍列表
         if (teams.length === 0) {
             container.innerHTML = this.renderEmptyState();
+
+            // 初始化 Lottie 动画（空状态）
+            if (typeof lottie !== 'undefined' && document.getElementById('lottie-player')) {
+                lottie.loadAnimation({
+                    container: document.getElementById('lottie-player'),
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    // 使用免费的空盒子动画
+                    path: 'https://lottie.host/55db55d6-d847-461b-9071-65435019a7b2/K1Ld6N2iq0.json'
+                });
+            }
         } else {
-            container.innerHTML = teams.map(([teamId, team]) =>
-                this.renderTeamCard(teamId, team)
+            container.innerHTML = teams.map(([teamId, team], index) =>
+                this.renderTeamCard(teamId, team, index)
             ).join('');
         }
     }
@@ -153,15 +447,22 @@ class TeamManagerApp {
         const totalPokemonsEl = document.getElementById('totalPokemons');
         const formatsCountEl = document.getElementById('formatsCount');
 
-        if (totalTeamsEl) totalTeamsEl.textContent = stats.total_teams;
-        if (totalPokemonsEl) totalPokemonsEl.textContent = stats.total_pokemons;
-        if (formatsCountEl) formatsCountEl.textContent = stats.formats_count;
+        // 使用数字滚动动画更新统计数据
+        if (totalTeamsEl) this.animateNumber($(totalTeamsEl), stats.total_teams);
+        if (totalPokemonsEl) this.animateNumber($(totalPokemonsEl), stats.total_pokemons);
+        if (formatsCountEl) this.animateNumber($(formatsCountEl), stats.formats_count);
     }
 
-    renderTeamCard(teamId, team) {
+    renderTeamCard(teamId, team, index = 0) {
         const formatName = this.formats[team.format] || team.format || '未设置';
         const pokemonCount = (team.pokemons || []).length;
         const updatedDate = team.updated_at ? team.updated_at.substring(0, 10) : '';
+        // 格式化format字符串为小写，用于CSS选择器
+        const formatClass = team.format ? team.format.toLowerCase() : 'other';
+
+        // 计算交错动画延迟：每个卡片比前一个晚 0.05秒出现
+        // 限制最大延迟为 0.5秒，防止列表太长时底部卡片等太久
+        const delay = Math.min(index * 0.05, 0.5);
 
         // 渲染宝可梦精灵图（使用sprite sheet）
         const pokemonSprites = (team.pokemons || []).slice(0, 6).map(pokemon => {
@@ -180,7 +481,7 @@ class TeamManagerApp {
         ).join('');
 
         return `
-            <div class="team-card" data-team-id="${teamId}" data-format="${team.format}">
+            <div class="team-card" data-team-id="${teamId}" data-format="${formatClass}" style="animation-delay: ${delay}s">
                 <div class="team-card-header">
                     <h3 class="team-name">${this.escapeHtml(team.name)}</h3>
                     <div class="team-meta">
@@ -229,13 +530,18 @@ class TeamManagerApp {
 
     renderEmptyState() {
         return `
-            <div class="empty-state">
-                <i class="fa fa-inbox" style="font-size: 64px; color: #ccc;"></i>
+            <div class="empty-state empty-state-lottie">
+                <div id="lottie-player"></div>
                 <h3>还没有队伍</h3>
-                <p>创建你的第一个队伍或导入现有队伍</p>
-                <button onclick="app.showImportDialog()" class="button button-primary">
-                    <i class="fa fa-upload"></i> 导入队伍
-                </button>
+                <p>点击"导入队伍"开始构建你的冠军之路，或浏览"云端队伍库"快速上手！</p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="app.showImportDialog()" class="button button-primary">
+                        <i class="fa fa-upload"></i> 导入队伍
+                    </button>
+                    <button onclick="app.showCloudLibrary()" class="button button-cloud">
+                        <i class="fa fa-cloud"></i> 云端队伍库
+                    </button>
+                </div>
             </div>
         `;
     }
@@ -267,8 +573,8 @@ class TeamManagerApp {
         if (teams.length === 0) {
             container.innerHTML = '<div class="empty-state"><p>没有找到匹配的队伍</p></div>';
         } else {
-            container.innerHTML = teams.map(([teamId, team]) =>
-                this.renderTeamCard(teamId, team)
+            container.innerHTML = teams.map(([teamId, team], index) =>
+                this.renderTeamCard(teamId, team, index)
             ).join('');
         }
     }
@@ -276,7 +582,7 @@ class TeamManagerApp {
     viewTeam(teamId) {
         const team = this.teamManager.getTeam(teamId);
         if (!team) {
-            alert('队伍不存在');
+            this.showToast('队伍不存在', 'error');
             return;
         }
 
@@ -330,6 +636,9 @@ class TeamManagerApp {
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button onclick="app.exportTeamImage('${this.escapeHtml(teamId)}')" class="button button-primary">
+                            <i class="fa fa-camera"></i> 保存图片
+                        </button>
                         <button onclick="app.exportTeam('${this.escapeHtml(teamId)}')" class="button">
                             <i class="fa fa-download"></i> 导出
                         </button>
@@ -492,27 +801,29 @@ class TeamManagerApp {
             </span>
         ` : '';
 
-        // 太晶属性圆形徽章
+        // 太晶属性徽章 - 改为内联显示而非绝对定位
         const teraHTML = pokemon.tera_type ? `
-            <div style="position: absolute; top: 15px; right: 15px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);" class="type-${pokemon.tera_type}">
-                <span style="font-size: 11px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${this.utils.translate(pokemon.tera_type)}</span>
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);" class="type-${pokemon.tera_type}">
+                <i class="fa fa-star" style="font-size: 12px;"></i>
+                <span style="font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">太晶: ${this.utils.translate(pokemon.tera_type)}</span>
             </div>
         ` : '';
 
         return `
             <div style="background: linear-gradient(135deg, rgba(45, 52, 84, 0.6) 0%, rgba(53, 61, 96, 0.6) 100%); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; position: relative; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
-                ${teraHTML}
-
                 <button onclick="app.editPokemon('${this.escapeHtml(teamId)}', ${idx})"
                         class="button button-sm"
-                        style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+                        style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                     <i class="fa fa-edit"></i>
                 </button>
 
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
                     <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px; transform: scale(1.8);"></div>
                     <div style="flex: 1; margin-left: 20px;">
-                        <h3 style="margin: 0; font-size: 20px; color: #f8f9fa; font-weight: 700;">${this.escapeHtml(nameCN)}</h3>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                            <h3 style="margin: 0; font-size: 20px; color: #f8f9fa; font-weight: 700;">${this.escapeHtml(nameCN)}</h3>
+                            ${teraHTML}
+                        </div>
                         ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #adb5bd; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
                         <div style="display: flex; gap: 12px; margin-top: 6px; align-items: center; flex-wrap: wrap;">
                             ${abilityHTML}
@@ -646,7 +957,7 @@ class TeamManagerApp {
             this.renderTeamsList();
             this.showNotification('队伍删除成功');
         } else {
-            alert('删除失败');
+            this.showToast('删除失败', 'error');
         }
     }
 
@@ -659,14 +970,14 @@ class TeamManagerApp {
             this.renderTeamsList();
             this.showNotification('队伍复制成功');
         } else {
-            alert('复制失败');
+            this.showToast('复制失败', 'error');
         }
     }
 
     editTeam(teamId) {
         const team = this.teamManager.getTeam(teamId);
         if (!team) {
-            alert('队伍不存在');
+            this.showToast('队伍不存在', 'error');
             return;
         }
 
@@ -736,7 +1047,16 @@ class TeamManagerApp {
             const newTagsString = dialog.querySelector('#editTeamTags').value.trim();
 
             if (!newName) {
-                alert('队伍名称不能为空');
+                const nameInput = dialog.querySelector('#editTeamName');
+                nameInput.classList.add('shake-invalid');
+                this.showToast('队伍名称不能为空', 'warning');
+
+                // 动画结束后移除类，聚焦输入框
+                setTimeout(() => {
+                    nameInput.classList.remove('shake-invalid');
+                    nameInput.focus();
+                }, 500);
+
                 return;
             }
 
@@ -756,7 +1076,16 @@ class TeamManagerApp {
             if (newName !== team.name) {
                 const existingTeam = this.teamManager.getTeam(newName);
                 if (existingTeam) {
-                    alert('队伍名称已存在，请使用其他名称');
+                    const nameInput = dialog.querySelector('#editTeamName');
+                    nameInput.classList.add('shake-invalid');
+                    this.showToast('队伍名称已存在，请使用其他名称', 'warning');
+
+                    // 动画结束后移除类，聚焦输入框
+                    setTimeout(() => {
+                        nameInput.classList.remove('shake-invalid');
+                        nameInput.focus();
+                    }, 500);
+
                     return;
                 }
             }
@@ -777,7 +1106,7 @@ class TeamManagerApp {
                     this.viewTeam(newName !== team.name ? newName : teamId);
                 }
             } else {
-                alert('队伍信息更新失败');
+                this.showToast('队伍信息更新失败', 'error');
             }
         });
 
@@ -795,7 +1124,7 @@ class TeamManagerApp {
     editPokemon(teamId, pokemonIndex) {
         const team = this.teamManager.getTeam(teamId);
         if (!team || !team.pokemons || !team.pokemons[pokemonIndex]) {
-            alert('宝可梦不存在');
+            this.showToast('宝可梦不存在', 'error');
             return;
         }
 
@@ -988,7 +1317,7 @@ class TeamManagerApp {
                     this.viewTeam(teamId);
                 }
             } else {
-                alert('宝可梦信息更新失败');
+                this.showToast('宝可梦信息更新失败', 'error');
             }
         });
 
@@ -999,21 +1328,56 @@ class TeamManagerApp {
     }
 
     updateEVTotal() {
-        const total = [0, 1, 2, 3, 4, 5].reduce((sum, i) => {
+        let total = 0;
+        const statNames = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe'];
+
+        // 计算总和并验证每个输入
+        [0, 1, 2, 3, 4, 5].forEach((i) => {
             const input = document.querySelector(`#editPokemonEV${i}`);
-            return sum + (input ? (parseInt(input.value) || 0) : 0);
-        }, 0);
+            if (input) {
+                const value = parseInt(input.value) || 0;
+                total += value;
+
+                // 单项检查：超过252时标记为invalid并震动
+                if (value > 252) {
+                    input.classList.add('is-invalid');
+                    input.classList.add('shake-invalid');
+
+                    // 动画结束后移除震动类
+                    setTimeout(() => {
+                        input.classList.remove('shake-invalid');
+                    }, 500);
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            }
+        });
+
         const totalEl = document.getElementById('evTotal');
         if (totalEl) {
             totalEl.textContent = total;
-            totalEl.style.color = total > 510 ? '#f44336' : total === 510 ? '#4caf50' : '#666';
+            totalEl.className = 'ev-total-display';
+
+            // 根据总计设置样式
+            if (total > 510) {
+                totalEl.classList.add('text-danger');
+                totalEl.parentElement.style.color = '#FF3B30';
+            } else if (total === 510) {
+                totalEl.classList.add('text-success');
+                totalEl.parentElement.style.color = '#34C759';
+            } else if (total > 0) {
+                totalEl.classList.add('text-warning');
+                totalEl.parentElement.style.color = '#FFCC00';
+            } else {
+                totalEl.parentElement.style.color = '';
+            }
         }
     }
 
     exportTeam(teamId) {
         const team = this.teamManager.getTeam(teamId);
         if (!team) {
-            alert('队伍不存在');
+            this.showToast('队伍不存在', 'error');
             return;
         }
 
@@ -1044,14 +1408,23 @@ class TeamManagerApp {
         const showdownText = document.getElementById('importTeamText').value;
 
         if (!showdownText.trim()) {
-            alert('请粘贴队伍数据');
+            const textArea = document.getElementById('importTeamText');
+            textArea.classList.add('shake-invalid');
+            this.showToast('请粘贴队伍数据', 'warning');
+
+            // 动画结束后移除类，聚焦输入框
+            setTimeout(() => {
+                textArea.classList.remove('shake-invalid');
+                textArea.focus();
+            }, 500);
+
             return;
         }
 
         try {
             const pokemons = this.showdownParser.parseTeam(showdownText);
             if (pokemons.length === 0) {
-                alert('没有解析到任何宝可梦');
+                this.showToast('没有解析到任何宝可梦', 'warning');
                 return;
             }
 
@@ -1066,7 +1439,7 @@ class TeamManagerApp {
             document.getElementById('importTeamText').value = '';
         } catch (error) {
             console.error('导入失败:', error);
-            alert('导入失败：' + error.message);
+            this.showToast('导入失败：' + error.message, 'error');
         }
     }
 
@@ -1106,6 +1479,10 @@ class TeamManagerApp {
     async loadCloudTeams() {
         const container = document.getElementById('cloudTeamsContainer');
 
+        // 显示骨架屏
+        container.className = ''; // 移除 loading 类
+        container.innerHTML = this.renderSkeletons(6);
+
         try {
             // 从静态文件读取队伍列表
             const response = await fetch('cloud-teams/index.json');
@@ -1116,7 +1493,6 @@ class TeamManagerApp {
             const teamsIndex = await response.json();
 
             if (teamsIndex.length === 0) {
-                container.className = ''; // 移除 loading 类
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fa fa-cloud" style="font-size: 64px; color: #ccc;"></i>
@@ -1144,7 +1520,6 @@ class TeamManagerApp {
             const teams = (await Promise.all(teamsPromises)).filter(t => t !== null);
 
             if (teams.length === 0) {
-                container.className = ''; // 移除 loading 类
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fa fa-exclamation-circle" style="font-size: 64px; color: #ff6b6b;"></i>
@@ -1156,15 +1531,13 @@ class TeamManagerApp {
             }
 
             // 渲染云端队伍列表
-            container.className = ''; // 移除 loading 类
             container.innerHTML = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px;">
-                    ${teams.map(team => this.renderCloudTeamCard(team)).join('')}
+                    ${teams.map((team, index) => this.renderCloudTeamCard(team, index)).join('')}
                 </div>
             `;
         } catch (error) {
             console.error('加载云端队伍失败:', error);
-            container.className = ''; // 移除 loading 类
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fa fa-exclamation-circle" style="font-size: 64px; color: #ff6b6b;"></i>
@@ -1178,10 +1551,15 @@ class TeamManagerApp {
         }
     }
 
-    renderCloudTeamCard(team) {
+    renderCloudTeamCard(team, index = 0) {
         const formatName = this.formats[team.format] || team.format || '未设置';
         const pokemonCount = (team.pokemons || []).length;
         const updatedDate = team.updated_at ? team.updated_at.substring(0, 10) : '';
+        // 格式化format字符串为小写，用于CSS选择器
+        const formatClass = team.format ? team.format.toLowerCase() : 'other';
+
+        // 计算交错动画延迟
+        const delay = Math.min(index * 0.05, 0.5);
 
         // 渲染宝可梦精灵图
         const pokemonSprites = (team.pokemons || []).slice(0, 6).map(pokemon => {
@@ -1200,7 +1578,7 @@ class TeamManagerApp {
         ).join('');
 
         return `
-            <div class="team-card" data-format="${team.format}">
+            <div class="team-card" data-format="${formatClass}" style="animation-delay: ${delay}s">
                 <div class="team-card-header">
                     <h3 class="team-name">${this.escapeHtml(team.name)}</h3>
                     <div class="team-meta">
@@ -1270,7 +1648,7 @@ class TeamManagerApp {
             this.showNotification(`队伍 "${teamName}" 已导入到本地`);
         } catch (error) {
             console.error('导入云端队伍失败:', error);
-            alert('导入失败：' + error.message);
+            this.showToast('导入失败：' + error.message, 'error');
         }
     }
 
@@ -1301,7 +1679,7 @@ class TeamManagerApp {
             }
         } catch (error) {
             console.error('查看云端队伍失败:', error);
-            alert('加载失败：' + error.message);
+            this.showToast('加载失败：' + error.message, 'error');
         }
     }
 
@@ -1486,46 +1864,60 @@ class TeamManagerApp {
 
         const natureCN = this.utils.translate(pokemon.nature);
 
+        // 太晶属性徽章 - 与本地显示保持一致
+        const teraHTML = pokemon.tera_type ? `
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);" class="type-${pokemon.tera_type}">
+                <i class="fa fa-star" style="font-size: 12px;"></i>
+                <span style="font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">太晶: ${this.utils.translate(pokemon.tera_type)}</span>
+            </div>
+        ` : '';
+
+        // 性格显示
+        const natureHTML = pokemon.nature ? `
+            <span style="font-size: 13px; color: #f8f9fa;">
+                <strong>性格:</strong> ${natureCN}
+            </span>
+        ` : '';
+
         return `
-            <div style="background: linear-gradient(135deg, rgba(45, 52, 84, 0.6) 0%, rgba(53, 61, 96, 0.6) 100%); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
-                    <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px;"></div>
-                    <div>
-                        <h3 style="margin: 0; font-size: 18px; color: #f8f9fa;">${this.escapeHtml(nameCN)}</h3>
-                        <p style="margin: 2px 0 0 0; font-size: 12px; color: #adb5bd;">${this.escapeHtml(pokemon.name)}</p>
+            <div style="background: linear-gradient(135deg, rgba(45, 52, 84, 0.6) 0%, rgba(53, 61, 96, 0.6) 100%); border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 20px; position: relative; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.1);">
+                    <div class="image-pokemon" style="background-position: ${coords.x}px ${coords.y}px; transform: scale(1.8);"></div>
+                    <div style="flex: 1; margin-left: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                            <h3 style="margin: 0; font-size: 20px; color: #f8f9fa; font-weight: 700;">${this.escapeHtml(nameCN)}</h3>
+                            ${teraHTML}
+                        </div>
                         ${pokemon.nickname ? `<p style="margin: 4px 0 0 0; font-size: 13px; color: #adb5bd; font-style: italic;">"${this.escapeHtml(pokemon.nickname)}"</p>` : ''}
+                        <div style="display: flex; gap: 12px; margin-top: 6px; align-items: center; flex-wrap: wrap;">
+                            ${abilityHTML}
+                            ${itemHTML}
+                        </div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                    <div>
-                        <label style="font-size: 12px; color: #adb5bd; font-weight: bold;">特性</label>
-                        <div>${abilityHTML}</div>
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #adb5bd; font-weight: bold;">道具</label>
-                        <div>${itemHTML}</div>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-size: 12px; color: #adb5bd; font-weight: bold; display: block; margin-bottom: 6px;">招式</label>
+                <div style="margin-bottom: 10px;">
                     <div class="pokemon-moves">
                         ${movesHTML || '<p style="color: #6c757d; font-size: 13px;">无招式</p>'}
                     </div>
                 </div>
 
-                ${evsHTML}
-                ${ivsHTML}
-
-                ${pokemon.nature ? `<p style="margin-top: 10px; font-size: 13px; color: #f8f9fa;">
-                    <strong>性格:</strong> ${natureCN}
-                    <span style="color: #adb5bd;">(${pokemon.nature})</span>
-                </p>` : ''}
-
-                ${pokemon.tera_type ? `<p style="margin-top: 8px; font-size: 13px; color: #f8f9fa;">
-                    <strong>太晶属性:</strong> <span class="type-badge type-${pokemon.tera_type}">${this.utils.translate(pokemon.tera_type)}</span>
-                </p>` : ''}
+                <div style="margin-top: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 10px;">
+                    ${natureHTML}
+                    <div style="margin-top: 8px;">
+                        <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
+                            <i class="fa fa-bar-chart"></i> EVs (努力值)
+                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">总计: ${evTotal}/510</span>` : ''}
+                        </div>
+                        ${evsHTML}
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
+                            <i class="fa fa-star"></i> IVs (个体值)
+                        </div>
+                        ${ivsHTML}
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -1548,9 +1940,9 @@ class TeamManagerApp {
         document.body.removeChild(textarea);
     }
 
-    showNotification(message) {
-        // 简单的通知实现
-        alert(message);
+    showNotification(message, type = 'success') {
+        // 使用新的 Toast 系统
+        this.showToast(message, type);
     }
 
     getPokemonSpriteName(name) {
@@ -1577,6 +1969,272 @@ class TeamManagerApp {
         const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
         // 替换URL为链接
         return escaped.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: #2196f3; text-decoration: underline;">$1</a>');
+    }
+
+    /**
+     * 搜索聚光灯效果 - 实时高亮匹配的卡片
+     */
+    applySpotlightSearch(query) {
+        const container = document.getElementById('teamsContainer');
+        const cards = container.querySelectorAll('.team-card');
+
+        if (!query || query.trim().length === 0) {
+            // 搜索框为空，恢复原状
+            container.classList.remove('searching');
+            cards.forEach(card => card.classList.remove('dimmed'));
+            return;
+        }
+
+        // 开启搜索模式
+        container.classList.add('searching');
+        const lowerQuery = query.toLowerCase().trim();
+
+        cards.forEach(card => {
+            // 获取卡片的可搜索内容（队伍名、宝可梦名等）
+            const teamName = card.querySelector('.team-name')?.textContent || '';
+            const pokemonNames = Array.from(card.querySelectorAll('.pokemon-mini'))
+                .map(el => el.getAttribute('title') || '')
+                .join(' ');
+            const tags = Array.from(card.querySelectorAll('.tag'))
+                .map(el => el.textContent || '')
+                .join(' ');
+            const description = card.querySelector('.team-description')?.textContent || '';
+
+            const searchableText = `${teamName} ${pokemonNames} ${tags} ${description}`.toLowerCase();
+
+            // 判断是否匹配
+            if (searchableText.includes(lowerQuery)) {
+                card.classList.remove('dimmed');
+            } else {
+                card.classList.add('dimmed');
+            }
+        });
+    }
+
+    /**
+     * Konami Code 彩蛋 - ↑↑↓↓←→←→BA
+     */
+    initKonamiCode() {
+        const konamiCode = [
+            'ArrowUp', 'ArrowUp',
+            'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight',
+            'ArrowLeft', 'ArrowRight',
+            'b', 'a'
+        ];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+
+            // 检查是否匹配当前序列
+            if (key === konamiCode[konamiIndex].toLowerCase()) {
+                konamiIndex++;
+
+                // 完成整个序列
+                if (konamiIndex === konamiCode.length) {
+                    this.activateGodMode();
+                    konamiIndex = 0; // 重置
+                }
+            } else {
+                // 输错了，重置
+                konamiIndex = 0;
+            }
+        });
+    }
+
+    /**
+     * 上帝模式 - 彩蛋效果
+     */
+    activateGodMode() {
+        // 显示彩蛋提示
+        this.showToast('🎮 GOD MODE ACTIVATED! 🎮', 'success');
+
+        // 让所有卡片旋转一圈
+        const cards = document.querySelectorAll('.team-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                card.style.transform = 'rotate(360deg) scale(1.1)';
+
+                // 恢复原状
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 1500);
+            }, index * 100); // 交错动画
+        });
+
+        // 让统计数字疯狂跳动
+        const statValues = document.querySelectorAll('.stat-value');
+        statValues.forEach(el => {
+            const originalValue = parseInt(el.textContent) || 0;
+            let count = 0;
+            const interval = setInterval(() => {
+                el.textContent = Math.floor(Math.random() * 999);
+                count++;
+                if (count > 20) {
+                    clearInterval(interval);
+                    el.textContent = originalValue; // 恢复原值
+                }
+            }, 50);
+        });
+
+        // 可选：播放音效（需要音频文件）
+        // const audio = new Audio('data:audio/wav;base64,...'); // 可以添加Base64编码的音效
+        // audio.play();
+    }
+
+    /**
+     * 导出队伍为图片 - 使用 html2canvas (修复滚动截图问题)
+     */
+    exportTeamImage(teamId) {
+        const team = this.teamManager.getTeam(teamId);
+        if (!team) {
+            this.showToast('队伍不存在', 'error');
+            return;
+        }
+
+        // 获取模态框内容
+        const modalContent = document.querySelector('#teamViewModal .modal-content');
+        if (!modalContent) {
+            this.showToast('无法获取队伍内容', 'error');
+            return;
+        }
+
+        // 显示加载提示
+        this.showToast('正在生成海报，请稍候...', 'info');
+
+        // 临时隐藏按钮，避免截图包含它们
+        const footer = modalContent.querySelector('.modal-footer');
+        const originalDisplay = footer.style.display;
+        footer.style.display = 'none';
+
+        // 使用 html2canvas 生成图片
+        html2canvas(modalContent, {
+            backgroundColor: '#1a1f35',
+            scale: 2, // 2倍分辨率，更清晰
+            useCORS: true, // 允许跨域图片
+            logging: false,
+            windowWidth: modalContent.scrollWidth,
+            windowHeight: modalContent.scrollHeight,
+
+            // 🔥 关键修复：在克隆体上移除滚动限制和按钮，优化布局
+            onclone: (clonedDoc) => {
+                // 1. 找到克隆后的 modal-content
+                const clonedContent = clonedDoc.querySelector('#teamViewModal .modal-content');
+                // 2. 找到克隆后的 modal-body (我们之前把滚动条加在了这里)
+                const clonedBody = clonedDoc.querySelector('#teamViewModal .modal-body');
+
+                // 3. 移除滚动限制，允许完整显示，强制设置宽度
+                if (clonedContent) {
+                    clonedContent.style.maxHeight = 'none'; // 移除最大高度限制
+                    clonedContent.style.height = 'auto';    // 强制高度自适应
+                    clonedContent.style.overflow = 'visible'; // 允许内容溢出显示
+                    clonedContent.style.width = '1500px'; // 适中宽度，3列×480px
+                    clonedContent.style.maxWidth = 'none'; // 移除maxWidth限制
+                }
+
+                if (clonedBody) {
+                    clonedBody.style.maxHeight = 'none';
+                    clonedBody.style.height = 'auto';
+                    clonedBody.style.overflow = 'visible';
+                    clonedBody.style.width = '100%'; // 确保body撑满
+                }
+
+                // 4. 保持3列横版布局，增加间距
+                const clonedPokemonGrid = clonedDoc.querySelector('.team-view-pokemon-grid');
+                if (clonedPokemonGrid) {
+                    clonedPokemonGrid.style.gridTemplateColumns = 'repeat(3, 1fr)'; // 保持3列
+                    clonedPokemonGrid.style.gap = '32px'; // 增加间距
+                }
+
+                // 5. 隐藏所有按钮（footer + 编辑按钮）
+                const clonedFooter = clonedDoc.querySelector('#teamViewModal .modal-footer');
+                if (clonedFooter) {
+                    clonedFooter.style.display = 'none';
+                }
+
+                // 6. 隐藏队伍信息区域的"编辑队伍信息"按钮
+                const clonedEditTeamBtn = clonedDoc.querySelector('.team-view-info .button');
+                if (clonedEditTeamBtn) {
+                    clonedEditTeamBtn.style.display = 'none';
+                }
+
+                // 7. 隐藏所有宝可梦卡片上的"编辑"按钮
+                const clonedEditButtons = clonedDoc.querySelectorAll('#teamViewModal .team-view-pokemon-grid button');
+                clonedEditButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+
+                // 8. 让队伍标题和格式信息居中显示
+                const clonedModalHeader = clonedDoc.querySelector('#teamViewModal .modal-header');
+                if (clonedModalHeader) {
+                    clonedModalHeader.style.textAlign = 'center';
+                    clonedModalHeader.style.justifyContent = 'center';
+                    // 隐藏modal-header中的关闭按钮
+                    const closeBtn = clonedModalHeader.querySelector('.close-button');
+                    if (closeBtn) closeBtn.style.display = 'none';
+                }
+
+                // 9. 让队伍信息区域居中
+                const clonedTeamViewInfo = clonedDoc.querySelector('.team-view-info');
+                if (clonedTeamViewInfo) {
+                    clonedTeamViewInfo.style.justifyContent = 'center';
+                    clonedTeamViewInfo.style.textAlign = 'center';
+                }
+
+                // 10. 让描述居中
+                const clonedDescription = clonedDoc.querySelector('.team-view-description');
+                if (clonedDescription) {
+                    clonedDescription.style.textAlign = 'center';
+                }
+
+                // 11. 修复type-badge文字底色问题（完全参考太晶属性的样式）
+                const clonedTypeBadges = clonedDoc.querySelectorAll('.type-badge');
+                clonedTypeBadges.forEach(badge => {
+                    // 完全按照太晶属性的样式设置
+                    // 太晶属性外层div样式：
+                    badge.style.display = 'inline-flex';
+                    badge.style.alignItems = 'center';
+                    badge.style.gap = '6px';
+                    badge.style.padding = '6px 12px';
+                    badge.style.borderRadius = '20px';
+                    badge.style.border = '2px solid rgba(255, 255, 255, 0.3)';
+                    badge.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+
+                    // 太晶属性内部span的文字样式：
+                    badge.style.fontSize = '12px';
+                    badge.style.fontWeight = '700';
+                    badge.style.color = 'white';
+                    badge.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.5)';
+
+                    // 其他保持不变
+                    badge.style.textTransform = 'uppercase';
+                    badge.style.letterSpacing = '0.5px';
+                    badge.style.fontFamily = 'Arial, sans-serif';
+                    badge.style.webkitBackgroundClip = 'padding-box';
+                    badge.style.backgroundClip = 'padding-box';
+                });
+            }
+        }).then(canvas => {
+            // 恢复按钮显示
+            footer.style.display = originalDisplay;
+
+            // 创建下载链接
+            const link = document.createElement('a');
+            const timestamp = new Date().toISOString().slice(0, 10);
+            link.download = `宝可梦队伍-${team.name}-${timestamp}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            this.showToast('海报保存成功！', 'success');
+        }).catch(err => {
+            // 恢复按钮显示
+            footer.style.display = originalDisplay;
+
+            console.error('生成图片失败:', err);
+            this.showToast('生成图片失败，请重试', 'error');
+        });
     }
 }
 

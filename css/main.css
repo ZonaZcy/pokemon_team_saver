@@ -52,12 +52,17 @@
 body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: var(--font-system);
+    /* 现代系统字体栈：优先使用 Apple 字体，其次是 Windows 现代字体 */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto,
+                 Helvetica, Arial, sans-serif;
+    /* 关键：在深色背景下让字体变细、更清晰 */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.47059;
     font-weight: 400;
-    letter-spacing: -0.022em;
+    /* 优化字距 */
+    letter-spacing: -0.015em;
     min-height: 100vh;
 }
 
@@ -71,15 +76,46 @@ body {
 }
 
 /* ==========================================
-   头部区域 - 现代深色风格
+   头部区域 - 现代深色风格 + 动态流光渐变
    ========================================== */
 header {
-    background: linear-gradient(135deg, #2d3454 0%, #3d4466 100%);
+    /* 动态流光渐变背景 (Apple Music 风格) */
+    background: linear-gradient(-45deg, #1a1f35, #2c3e50, #4A9EFF, #2a0845);
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
     border-radius: 20px;
     padding: 40px;
     margin-bottom: 32px;
     box-shadow: var(--shadow-md);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景流动动画 */
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 增加微弱的噪点纹理，提升质感 */
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 确保header内容在噪点之上 */
+header h1, header p {
+    position: relative;
+    z-index: 1;
 }
 
 header h1 {
@@ -310,16 +346,25 @@ header p span {
     gap: 24px;
 }
 
+/* 手机端断点修复 - 防止横向溢出 */
+@media (max-width: 768px) {
+    .teams-container {
+        /* 强制改为单列，并撑满容器，去掉最小宽度限制 */
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ==========================================
-   队伍卡片 - 现代深色设计
+   队伍卡片 - 现代深色设计 + 增强交互
    ========================================== */
 .team-card {
     background: linear-gradient(135deg, #2d3454 0%, #353d60 100%);
     border-radius: 20px;
     padding: 24px;
     box-shadow: var(--shadow-md);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 4px solid transparent; /* 预留顶部彩色条位置 */
     position: relative;
     overflow: hidden;
 }
@@ -336,14 +381,34 @@ header p span {
     transition: opacity 0.3s;
 }
 
+/* 增强悬停效果 */
 .team-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    background: rgba(30, 35, 55, 0.95); /* 略微变亮 */
     border-color: rgba(74, 158, 255, 0.3);
 }
 
 .team-card:hover::before {
     opacity: 1;
+}
+
+/* 动态分类颜色 - 顶部彩色边框 */
+/* VGC / 双打 - 紫色渐变 */
+.team-card[data-format*="vgc"],
+.team-card[data-format*="doubles"] {
+    border-top-color: #A78BFA; /* 柔和的紫色 */
+}
+
+/* OU / 单打 - 青色 */
+.team-card[data-format*="ou"],
+.team-card[data-format*="singles"] {
+    border-top-color: #4ECDC4; /* 青色 */
+}
+
+/* 其他格式 - 蓝色 */
+.team-card[data-format]:not([data-format*="vgc"]):not([data-format*="doubles"]):not([data-format*="ou"]):not([data-format*="singles"]) {
+    border-top-color: #4A9EFF;
 }
 
 .team-card-header {
@@ -390,7 +455,7 @@ header p span {
 }
 
 /* ==========================================
-   宝可梦图标列表
+   宝可梦图标列表 + 增强交互
    ========================================== */
 .team-pokemon-list {
     display: grid;
@@ -421,6 +486,16 @@ header p span {
     box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4),
                 inset 0 2px 4px rgba(0, 0, 0, 0.3);
     z-index: 1;
+}
+
+/* 增强精灵图立体感 */
+.pokemon-mini .image-pokemon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.2s;
+}
+
+.pokemon-mini:hover .image-pokemon {
+    transform: scale(1.1);
 }
 
 /* ==========================================
@@ -532,7 +607,7 @@ header p span {
 
 .modal-content {
     background: linear-gradient(135deg, #2d3454 0%, #353d60 100%);
-    margin: 40px;
+    margin: 40px auto; /* 上下留出呼吸空间 */
     border-radius: 20px;
     width: 90%;
     max-width: 640px;
@@ -722,7 +797,7 @@ header p span {
 }
 
 /* ==========================================
-   属性类型徽章 - 更现代的设计
+   属性类型徽章 - 3D宝石效果（优化滚动性能）
    ========================================== */
 .type-badge {
     display: inline-block;
@@ -735,8 +810,30 @@ header p span {
     margin-left: 6px;
     vertical-align: middle;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    /* 3D宝石多层阴影 */
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 3px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* 移除持续动画，改为过渡效果 */
+    transition: all 0.3s ease;
+    /* 优化滚动性能 */
+    will-change: auto;
 }
+
+/* 悬停时增强光泽和发光效果 */
+.type-badge:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.4),
+        inset 0 3px 5px rgba(255, 255, 255, 0.4),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* 移除持续的发光动画 - 改为仅hover时触发 */
+/* @keyframes teraGlow 已删除，因为持续动画会影响滚动性能 */
 
 /* 宝可梦属性颜色 */
 .type-Normal { background: linear-gradient(135deg, #A8A77A, #C6C6A7); }
@@ -1026,7 +1123,8 @@ header p span {
 
     /* 模态框 */
     .modal-content {
-        margin: 16px;
+        margin: 24px auto; /* 手机端稍微减少间距 */
+        width: calc(100% - 32px);
         max-width: calc(100% - 32px);
         border-radius: 16px;
     }
@@ -1152,7 +1250,8 @@ header p span {
     }
 
     .modal-content {
-        margin: 12px;
+        margin: 20px auto; /* 小手机端更紧凑但不拥挤 */
+        width: calc(100% - 24px);
         max-width: calc(100% - 24px);
     }
 
@@ -1257,4 +1356,502 @@ header p span {
     background: rgba(255, 255, 255, 0.3);
     border: 3px solid transparent;
     background-clip: content-box;
+}
+
+/* =========================================
+   现代 Toast 通知系统 (Apple 风格)
+   ========================================= */
+#toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none; /* 允许点击穿透空白区域 */
+}
+
+.toast-message {
+    min-width: 300px;
+    max-width: 400px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    /* 毛玻璃效果 */
+    background: rgba(30, 35, 55, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    /* 动画初始状态 */
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+}
+
+.toast-message.show {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+/* 状态颜色指示条 */
+.toast-message::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    border-radius: 4px;
+    background: var(--apple-blue); /* 默认蓝色 */
+}
+
+.toast-success::before { background: #34C759; } /* Apple Green */
+.toast-error::before { background: #FF3B30; }   /* Apple Red */
+.toast-warning::before { background: #FFCC00; } /* Apple Yellow */
+
+/* Toast 在手机端适配 */
+@media (max-width: 768px) {
+    #toast-container {
+        top: 16px;
+        right: 16px;
+        left: 16px;
+    }
+
+    .toast-message {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* =========================================
+   模态框滚动体验优化
+   ========================================= */
+.modal-content {
+    /* 限制最大高度为屏幕的 85% */
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 防止外层滚动 */
+}
+
+.modal-body {
+    /* 内容区域可滚动 */
+    overflow-y: auto;
+    padding-right: 8px; /* 给滚动条留位置 */
+    overscroll-behavior: contain; /* 防止连带页面滚动 */
+}
+
+/* 自定义模态框滚动条 (Webkit) */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================
+   表单验证状态
+   ========================================= */
+input.is-invalid, .textbox.is-invalid {
+    border-color: #FF3B30 !important;
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.2) !important;
+    background: rgba(255, 59, 48, 0.05) !important;
+}
+
+input.is-invalid:focus, .textbox.is-invalid:focus {
+    border-color: #FF3B30 !important;
+    box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.25) !important;
+}
+
+/* 警告文字样式 */
+.ev-warning {
+    color: #FF3B30;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ev-warning i {
+    font-size: 14px;
+}
+
+/* EV总计显示样式 */
+.ev-total-display {
+    font-size: 16px;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.ev-total-display.text-danger {
+    color: #FF3B30;
+}
+
+.ev-total-display.text-success {
+    color: #34C759;
+}
+
+.ev-total-display.text-warning {
+    color: #FFCC00;
+}
+
+/* =========================================
+   5. 骨架屏加载动画 (Skeleton Loading)
+   ========================================= */
+/* 骨架卡片容器 */
+.skeleton-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    height: 200px; /* 近似队伍卡片高度 */
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 闪烁动画效果 */
+.skeleton-pulse {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 37%,
+        rgba(255, 255, 255, 0.05) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* 内部占位块 */
+.sk-title { height: 24px; width: 60%; margin-bottom: 16px; }
+.sk-tags { height: 16px; width: 40%; margin-bottom: 24px; }
+.sk-mons-row { display: flex; gap: 8px; }
+.sk-mon { width: 40px; height: 40px; border-radius: 50%; }
+
+/* =========================================
+   6. 太晶属性徽章响应式修复
+   ========================================= */
+/* 手机端 (<768px) 调整 */
+@media (max-width: 768px) {
+    /* 太晶徽章在手机端缩小并调整位置 */
+    .team-view-pokemon-grid > div {
+        padding-top: 50px !important; /* 给徽章留出顶部空间 */
+    }
+
+    .team-view-pokemon-grid > div > div[style*="position: absolute"] {
+        transform: scale(0.8);
+        top: 8px !important;
+        right: 8px !important;
+    }
+}
+
+/* =========================================
+   7. 输入框数值限制视觉反馈
+   ========================================= */
+.textbox[type="number"]::-webkit-inner-spin-button,
+.textbox[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.textbox[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* =========================================
+   10. 页面滚动进度条 (Scroll Progress)
+   ========================================= */
+#scroll-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 99999; /* 确保在最顶层 */
+    background: transparent;
+    pointer-events: none;
+}
+
+#scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    /* 使用品牌渐变色 */
+    background: linear-gradient(90deg, #4A9EFF, #A78BFA, #4ECDC4);
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+    transition: width 0.1s ease-out;
+}
+
+/* =========================================
+   11. 按钮波纹效果 (Ripple Effect)
+   ========================================= */
+/* 确保所有按钮都能承载波纹 */
+.button, .btn, .team-card {
+    position: relative;
+    overflow: hidden; /* 必须，限制波纹在按钮内 */
+}
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none; /* 防止挡住点击 */
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   12. 空状态容器优化 (Lottie)
+   ========================================= */
+.empty-state-lottie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    grid-column: 1 / -1; /* 占满整行 */
+    min-height: 400px;
+}
+
+#lottie-player {
+    width: 240px;
+    height: 240px;
+    margin-bottom: 24px;
+}
+
+.empty-state-lottie h3 {
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.empty-state-lottie p {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    font-size: 16px;
+    max-width: 500px;
+}
+
+/* =========================================
+   13. 字体渲染优化 (Typography)
+   ========================================= */
+/* 针对数字优化 - 使用等宽数字字体防止跳动 */
+.stat-value,
+#totalTeams,
+#totalPokemons,
+#formatsCount,
+input[type="number"],
+.textbox[type="number"] {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================================
+   14. 队伍卡片交错入场动画 (Stagger)
+   ========================================= */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 默认状态 - backwards 确保动画开始前元素是隐藏的 */
+.team-card {
+    animation: cardEntrance 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+/* =========================================
+   15. 骨架屏流光优化 (Shimmer Pulse)
+   ========================================= */
+.skeleton-pulse {
+    /* 更细腻的渐变：深色底 -> 亮光 -> 深色底 */
+    background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0.03) 20%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.03) 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* =========================================
+   16. 全局视图过渡 (Page Transitions)
+   ========================================= */
+/* 主要内容区域淡入 */
+.container {
+    animation: pageFadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 模态框切换优化 - 弹性缓动 */
+.modal .modal-content {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.95);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* =========================================
+   17. 果冻弹性按钮效果 (Squishy Buttons)
+   ========================================= */
+@keyframes buttonSquish {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* 所有按钮添加过渡效果 */
+button, .btn, .button {
+    transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+}
+
+/* 点击时的挤压效果 */
+button:active, .btn:active, .button:active {
+    animation: buttonSquish 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 卡片点击效果 - 需要与悬停效果协调 */
+.team-card:active {
+    transform: translateY(-4px) scale(0.98) !important;
+}
+
+/* =========================================
+   18. 搜索聚光灯效果 (Spotlight Search)
+   ========================================= */
+/* 未匹配的卡片：变暗、变灰 */
+.teams-container.searching .team-card.dimmed {
+    opacity: 0.2;
+    filter: grayscale(100%);
+    transform: scale(0.95);
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+/* 匹配的卡片：高亮、发光 */
+.teams-container.searching .team-card:not(.dimmed) {
+    opacity: 1;
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(74, 158, 255, 0.5);
+    z-index: 10;
+    border-color: var(--apple-blue);
+}
+
+/* =========================================
+   19. 3D 视差卡片效果 (Apple TV Style)
+   ========================================= */
+.team-card {
+    /* 开启 3D 空间 */
+    transform-style: preserve-3d;
+    /* 平滑过渡 */
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+}
+
+/* 卡片内部内容分层，制造深度感 */
+.team-card .team-name,
+.team-card .team-pokemon-list {
+    transform: translateZ(20px); /* 让文字和图标悬浮在卡片表面之上 */
+}
+
+/* 光泽层 (Glare) */
+.card-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3), transparent 60%);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    transition: opacity 0.3s ease;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+/* =========================================
+   20. 错误震动反馈 (Shake Animation)
+   ========================================= */
+@keyframes shakeError {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-8px);
+    }
+    40% {
+        transform: translateX(8px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+.shake-invalid {
+    animation: shakeError 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    border-color: #FF3B30 !important;
+    box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.3) !important;
+    background: rgba(255, 59, 48, 0.05) !important;
+}
+
+/* 震动后的聚焦状态保持红色 */
+.shake-invalid:focus {
+    border-color: #FF3B30 !important;
+    box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.25) !important;
 }

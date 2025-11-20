@@ -12,6 +12,12 @@
     <!-- Local styles -->
     <link rel="stylesheet" href="css/main.css?v=2024112001">
 
+    <!-- Lottie Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+    <!-- HTML2Canvas - 用于生成队伍海报 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <!-- Local scripts -->
     <script src="js/utils.js?v=2024112001"></script>
     <script src="js/teamManager.js?v=2024112001"></script>
@@ -19,6 +25,10 @@
     <script src="js/app.js?v=2024112001"></script>
 </head>
 <body>
+    <!-- 页面滚动进度条 -->
+    <div id="scroll-progress-container">
+        <div id="scroll-progress-bar"></div>
+    </div>
     <div class="container">
         <header>
             <h1><i class="fa fa-users"></i> 宝可梦队伍管理器</h1>
