@@ -1,0 +1,166 @@
+{
+  "app": {
+    "title": "Pokemon Team Manager",
+    "subtitle": "Manage Your Pokemon Battle Teams",
+    "dataLocalOnly": "Data is stored locally only, not transmitted to servers",
+    "staticVersion": "Pokemon Team Manager - Static Version"
+  },
+  "stats": {
+    "totalTeams": "Total Teams",
+    "totalPokemons": "Total Pokemon",
+    "formatsCount": "Formats Used"
+  },
+  "actions": {
+    "search": "Search",
+    "import": "Import",
+    "export": "Export",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "view": "View",
+    "duplicate": "Duplicate",
+    "backup": "Backup All Teams",
+    "importTeam": "Import Team",
+    "cloudLibrary": "Cloud Library",
+    "saveImage": "Save Image"
+  },
+  "search": {
+    "placeholder": "Search teams, Pokemon...",
+    "noResults": "No matching teams found"
+  },
+  "filter": {
+    "allFormats": "All Formats"
+  },
+  "team": {
+    "format": "Format",
+    "name": "Team Name",
+    "description": "Description",
+    "tags": "Tags",
+    "tagsPlaceholder": "Enter tags separated by commas (e.g., Offensive, VGC, Rain Team)",
+    "tagsHint": "Tip: Separate multiple tags with commas",
+    "updatedAt": "Updated",
+    "pokemonCount": "",
+    "cloudTeam": "Cloud Team",
+    "namePlaceholder": "Enter team name",
+    "formatPlaceholder": "Select or enter format name",
+    "descriptionPlaceholder": "Enter team description (optional)",
+    "nameRequired": "Team name cannot be empty",
+    "nameExists": "Team name already exists, please use a different name",
+    "unsetFormat": "Not Set"
+  },
+  "pokemon": {
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Nickname (optional)",
+    "gender": "Gender",
+    "genderUnknown": "Unknown",
+    "genderMale": "Male (M)",
+    "genderFemale": "Female (F)",
+    "item": "Item",
+    "itemPlaceholder": "Select or enter item",
+    "noItem": "No Item",
+    "ability": "Ability",
+    "abilityPlaceholder": "Select or enter ability",
+    "abilityUnset": "Not Set",
+    "teraType": "Tera Type",
+    "teraTypeUnset": "Not Set",
+    "teraTypeLabel": "Tera",
+    "nature": "Nature",
+    "naturePlaceholder": "Not Set",
+    "level": "Level",
+    "moves": "Moves",
+    "movesMax": "Moves (Max 4)",
+    "movePlaceholder": "Move",
+    "noMoves": "No Moves",
+    "evs": "Effort Values (EVs)",
+    "evsTotal": "Total",
+    "ivs": "Individual Values (IVs)",
+    "ivsDefault": "Default 31",
+    "power": "Power",
+    "priority": "Priority",
+    "accuracy": "Accuracy",
+    "sureHit": "Sure Hit",
+    "statusMove": "Status"
+  },
+  "import": {
+    "dialogTitle": "Import Team",
+    "teamName": "Team Name",
+    "format": "Format",
+    "showdownFormat": "Showdown Format Team",
+    "placeholder": "Paste Pokemon Showdown format team...\n\nExample:\nRillaboom @ Assault Vest\nAbility: Grassy Surge\nLevel: 50\nTera Type: Fire\nEVs: 252 HP / 252 Atk / 4 SpD\nAdamant Nature\n- Fake Out\n- Grassy Glide\n- Wood Hammer\n- U-turn",
+    "pasteData": "Please paste team data",
+    "success": "Import successful! Imported {count} Pokemon",
+    "noPokemon": "No Pokemon parsed",
+    "error": "Import failed",
+    "defaultName": "Imported Team"
+  },
+  "export": {
+    "copied": "Team copied to clipboard",
+    "backupDownloaded": "Backup downloaded",
+    "imageSaving": "Generating poster, please wait...",
+    "imageSuccess": "Poster saved successfully!",
+    "imageError": "Failed to generate image, please try again",
+    "imageNotFound": "Cannot get team content"
+  },
+  "cloud": {
+    "title": "Cloud Library",
+    "loading": "Loading cloud teams...",
+    "empty": "No cloud teams yet",
+    "emptyDesc": "Cloud library is empty",
+    "loadError": "Load Failed",
+    "loadErrorDesc": "Cannot load any team data",
+    "indexMissing": "Please ensure cloud-teams/index.json file exists",
+    "importSuccess": "Team \"{name}\" imported locally",
+    "importError": "Import failed",
+    "importToLocal": "Import to Local",
+    "cannotGetData": "Cannot get team data"
+  },
+  "edit": {
+    "teamInfo": "Edit Team Info",
+    "pokemon": "Edit Pokemon - {name}",
+    "updateSuccess": "Team info updated successfully",
+    "updateError": "Team info update failed",
+    "pokemonUpdateSuccess": "Pokemon info updated successfully",
+    "pokemonUpdateError": "Pokemon info update failed"
+  },
+  "delete": {
+    "confirm": "Are you sure you want to delete this team? This action cannot be undone.",
+    "success": "Team deleted successfully",
+    "error": "Delete failed"
+  },
+  "duplicate": {
+    "prompt": "Enter the new team name:",
+    "success": "Team duplicated successfully",
+    "error": "Duplicate failed"
+  },
+  "empty": {
+    "title": "No Teams Yet",
+    "message": "Click \"Import Team\" to start building your champion team, or browse \"Cloud Library\" to get started quickly!"
+  },
+  "loading": {
+    "text": "Loading..."
+  },
+  "validation": {
+    "evOver510": "Total EVs cannot exceed 510",
+    "evOver252": "Single EV cannot exceed 252",
+    "ivRange": "IV range: 0-31",
+    "levelRange": "Level range: 1-100"
+  },
+  "errors": {
+    "teamNotFound": "Team not found",
+    "pokemonNotFound": "Pokemon not found",
+    "loadFormats": "Failed to load format list",
+    "loadMoves": "Failed to load move data",
+    "loadAbilities": "Failed to load ability data",
+    "loadItems": "Failed to load item data"
+  },
+  "footer": {
+    "dataSecurity": "Data Security Guarantee",
+    "dataSecurityDesc": "All team data is stored locally in your browser (localStorage)<br>Not uploaded to any server | No personal information collected | Fully offline available",
+    "features": "Supports Showdown format import/export | Recommend regular backups of important teams"
+  },
+  "konami": {
+    "godMode": "🎮 GOD MODE ACTIVATED! 🎮"
+  }
+}

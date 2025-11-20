@@ -16,6 +16,9 @@ class TeamManagerApp {
     }
 
     async init() {
+        // 初始化 i18n
+        await i18n.init();
+
         // 初始化 Toast 容器
         this.initToastContainer();
 
@@ -27,6 +30,12 @@ class TeamManagerApp {
             this.loadAbilities(),
             this.loadItems()
         ]);
+
+        // 更新页面翻译
+        i18n.updatePageTranslations();
+
+        // 更新语言按钮状态
+        this.updateLanguageButtons();
 
         // 填充格式列表
         this.populateFormatList();
@@ -45,6 +54,11 @@ class TeamManagerApp {
 
         // 初始化 Konami Code 彩蛋
         this.initKonamiCode();
+
+        // 监听语言切换事件
+        window.addEventListener('localeChanged', () => {
+            this.onLanguageChanged();
+        });
     }
 
     initToastContainer() {
@@ -315,7 +329,7 @@ class TeamManagerApp {
         // 填充筛选器
         const formatFilter = document.getElementById('formatFilter');
         if (formatFilter) {
-            formatFilter.innerHTML = '<option value="">所有格式</option>';
+            formatFilter.innerHTML = `<option value="">${i18n.t('filter.allFormats')}</option>`;
             for (const [code, name] of Object.entries(this.formats)) {
                 const option = document.createElement('option');
                 option.value = code;
@@ -342,7 +356,7 @@ class TeamManagerApp {
             const response = await fetch('data/meta_names.json');
             this.formats = await response.json();
         } catch (error) {
-            console.error('加载格式列表失败:', error);
+            console.error(i18n.t('errors.loadFormats'), error);
             this.formats = {
                 'gen9vgc2025regj': 'Gen 9 VGC 2025 Reg J',
                 'gen9vgc2025regi': 'Gen 9 VGC 2025 Reg I',
@@ -355,7 +369,7 @@ class TeamManagerApp {
             const response = await fetch('data/moves.json');
             this.moves = await response.json();
         } catch (error) {
-            console.error('加载招式数据失败:', error);
+            console.error(i18n.t('errors.loadMoves'), error);
             this.moves = {};
         }
     }
@@ -365,7 +379,7 @@ class TeamManagerApp {
             const response = await fetch('data/abilities.json');
             this.abilities = await response.json();
         } catch (error) {
-            console.error('加载特性数据失败:', error);
+            console.error(i18n.t('errors.loadAbilities'), error);
             this.abilities = {};
         }
     }
@@ -375,7 +389,7 @@ class TeamManagerApp {
             const response = await fetch('data/items.json');
             this.items = await response.json();
         } catch (error) {
-            console.error('加载道具数据失败:', error);
+            console.error(i18n.t('errors.loadItems'), error);
             this.items = {};
         }
     }
@@ -454,7 +468,7 @@ class TeamManagerApp {
     }
 
     renderTeamCard(teamId, team, index = 0) {
-        const formatName = this.formats[team.format] || team.format || '未设置';
+        const formatName = this.formats[team.format] || team.format || i18n.t('team.unsetFormat');
         const pokemonCount = (team.pokemons || []).length;
         const updatedDate = team.updated_at ? team.updated_at.substring(0, 10) : '';
         // 格式化format字符串为小写，用于CSS选择器
@@ -487,7 +501,7 @@ class TeamManagerApp {
                     <div class="team-meta">
                         <span class="format-badge">${formatName}</span>
                         <span class="pokemon-count">
-                            <i class="fa fa-users"></i> ${pokemonCount} 只
+                            <i class="fa fa-users"></i> ${pokemonCount} ${i18n.t('team.pokemonCount')}
                         </span>
                     </div>
                 </div>
@@ -504,23 +518,23 @@ class TeamManagerApp {
 
                 <div class="team-card-footer">
                     <div class="team-date">
-                        <small>更新于: ${updatedDate}</small>
+                        <small>${i18n.t('team.updatedAt')}: ${updatedDate}</small>
                     </div>
                     <div class="team-actions">
                         <button onclick="app.viewTeam('${teamId}')" class="button button-sm">
-                            <i class="fa fa-eye"></i> 查看
+                            <i class="fa fa-eye"></i> ${i18n.t('actions.view')}
                         </button>
                         <button onclick="app.editTeam('${teamId}')" class="button button-sm">
-                            <i class="fa fa-edit"></i> 编辑
+                            <i class="fa fa-edit"></i> ${i18n.t('actions.edit')}
                         </button>
                         <button onclick="app.duplicateTeam('${teamId}')" class="button button-sm">
-                            <i class="fa fa-files-o"></i> 复制
+                            <i class="fa fa-files-o"></i> ${i18n.t('actions.duplicate')}
                         </button>
                         <button onclick="app.exportTeam('${teamId}')" class="button button-sm">
-                            <i class="fa fa-download"></i> 导出
+                            <i class="fa fa-download"></i> ${i18n.t('actions.export')}
                         </button>
                         <button onclick="app.deleteTeam('${teamId}')" class="button button-sm button-danger">
-                            <i class="fa fa-trash"></i> 删除
+                            <i class="fa fa-trash"></i> ${i18n.t('actions.delete')}
                         </button>
                     </div>
                 </div>
@@ -532,14 +546,14 @@ class TeamManagerApp {
         return `
             <div class="empty-state empty-state-lottie">
                 <div id="lottie-player"></div>
-                <h3>还没有队伍</h3>
-                <p>点击"导入队伍"开始构建你的冠军之路，或浏览"云端队伍库"快速上手！</p>
+                <h3>${i18n.t('empty.title')}</h3>
+                <p>${i18n.t('empty.message')}</p>
                 <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="app.showImportDialog()" class="button button-primary">
-                        <i class="fa fa-upload"></i> 导入队伍
+                        <i class="fa fa-upload"></i> ${i18n.t('actions.importTeam')}
                     </button>
                     <button onclick="app.showCloudLibrary()" class="button button-cloud">
-                        <i class="fa fa-cloud"></i> 云端队伍库
+                        <i class="fa fa-cloud"></i> ${i18n.t('actions.cloudLibrary')}
                     </button>
                 </div>
             </div>
@@ -571,7 +585,7 @@ class TeamManagerApp {
     renderFilteredTeams(teams) {
         const container = document.getElementById('teamsContainer');
         if (teams.length === 0) {
-            container.innerHTML = '<div class="empty-state"><p>没有找到匹配的队伍</p></div>';
+            container.innerHTML = `<div class="empty-state"><p>${i18n.t('search.noResults')}</p></div>`;
         } else {
             container.innerHTML = teams.map(([teamId, team], index) =>
                 this.renderTeamCard(teamId, team, index)
@@ -582,7 +596,7 @@ class TeamManagerApp {
     viewTeam(teamId) {
         const team = this.teamManager.getTeam(teamId);
         if (!team) {
-            this.showToast('队伍不存在', 'error');
+            this.showToast(i18n.t('errors.teamNotFound'), 'error');
             return;
         }
 
@@ -611,7 +625,7 @@ class TeamManagerApp {
             return this.renderPokemonDetails(pokemon, idx, teamId);
         }).join('');
 
-        const formatName = this.formats[team.format] || team.format || '未设置';
+        const formatName = this.formats[team.format] || team.format || i18n.t('team.unsetFormat');
 
         return `
             <div id="teamViewModal" class="modal">
@@ -623,11 +637,11 @@ class TeamManagerApp {
                     <div class="modal-body">
                         <div class="team-view-info">
                             <div>
-                                <span style="color: #666; font-size: 14px;">格式：</span>
+                                <span style="color: #666; font-size: 14px;">${i18n.t('team.format')}：</span>
                                 <span style="font-weight: bold; color: #333;">${this.escapeHtml(formatName)}</span>
                             </div>
                             <button onclick="app.editTeam('${this.escapeHtml(teamId)}')" class="button button-sm">
-                                <i class="fa fa-edit"></i> 编辑队伍信息
+                                <i class="fa fa-edit"></i> ${i18n.t('edit.teamInfo')}
                             </button>
                         </div>
                         ${team.description ? `<p class="team-view-description">${this.linkifyText(team.description)}</p>` : ''}
@@ -637,13 +651,13 @@ class TeamManagerApp {
                     </div>
                     <div class="modal-footer">
                         <button onclick="app.exportTeamImage('${this.escapeHtml(teamId)}')" class="button button-primary">
-                            <i class="fa fa-camera"></i> 保存图片
+                            <i class="fa fa-camera"></i> ${i18n.t('actions.saveImage')}
                         </button>
                         <button onclick="app.exportTeam('${this.escapeHtml(teamId)}')" class="button">
-                            <i class="fa fa-download"></i> 导出
+                            <i class="fa fa-download"></i> ${i18n.t('actions.export')}
                         </button>
                         <button onclick="document.getElementById('teamViewModal').remove()" class="button">
-                            关闭
+                            ${i18n.t('actions.close')}
                         </button>
                     </div>
                 </div>
@@ -677,12 +691,12 @@ class TeamManagerApp {
             let powerDisplay = '';
             if (category === 'Physical' || category === 'Special') {
                 if (basePower > 0) {
-                    powerDisplay = `<span style="font-size: 11px; color: #ff6b6b; font-weight: 600;">威力:${basePower}</span>`;
+                    powerDisplay = `<span style="font-size: 11px; color: #ff6b6b; font-weight: 600;">${i18n.t('pokemon.power')}:${basePower}</span>`;
                 } else {
-                    powerDisplay = `<span style="font-size: 11px; color: #999;">威力:—</span>`;
+                    powerDisplay = `<span style="font-size: 11px; color: #999;">${i18n.t('pokemon.power')}:—</span>`;
                 }
             } else if (category === 'Status') {
-                powerDisplay = `<span style="font-size: 11px; color: #a29bfe; font-weight: 500;">变化</span>`;
+                powerDisplay = `<span style="font-size: 11px; color: #a29bfe; font-weight: 500;">${i18n.t('pokemon.statusMove')}</span>`;
             }
 
             // 先制度显示（仅当不为0时显示）
@@ -690,15 +704,15 @@ class TeamManagerApp {
             if (priority !== 0) {
                 const priorityColor = priority > 0 ? '#f59e0b' : '#8b5cf6';
                 const prioritySign = priority > 0 ? '+' : '';
-                priorityDisplay = `<span style="font-size: 11px; color: ${priorityColor}; font-weight: 600;">先制:${prioritySign}${priority}</span>`;
+                priorityDisplay = `<span style="font-size: 11px; color: ${priorityColor}; font-weight: 600;">${i18n.t('pokemon.priority')}:${prioritySign}${priority}</span>`;
             }
 
             // 命中率显示
             let accuracyDisplay = '';
             if (accuracy === true) {
-                accuracyDisplay = `<span style="font-size: 11px; color: #26de81;">必中</span>`;
+                accuracyDisplay = `<span style="font-size: 11px; color: #26de81;">${i18n.t('pokemon.sureHit')}</span>`;
             } else if (typeof accuracy === 'number') {
-                accuracyDisplay = `<span style="font-size: 11px; color: #45aaf2;">命中:${accuracy}</span>`;
+                accuracyDisplay = `<span style="font-size: 11px; color: #45aaf2;">${i18n.t('pokemon.accuracy')}:${accuracy}</span>`;
             }
 
             return `
@@ -722,7 +736,7 @@ class TeamManagerApp {
                 <div>${this.escapeHtml(abilityCN)}</div>
                 <div style="font-size: 11px; color: rgba(0,100,200,0.8); margin-top: 2px;">${this.escapeHtml(pokemon.ability)}</div>
             </div>` :
-            '<span style="color: #999;">未设置</span>';
+            `<span style="color: #999;">${i18n.t('pokemon.abilityUnset')}</span>`;
 
         // 道具（翻译+tooltip+图标）
         const itemCN = this.utils.translate(pokemon.item);
@@ -736,7 +750,7 @@ class TeamManagerApp {
                     <div style="font-size: 11px; color: rgba(200,100,0,0.8); margin-top: 2px;">${this.escapeHtml(pokemon.item)}</div>
                 </div>
             </div>` :
-            '<span style="color: #999;">无道具</span>';
+            `<span style="color: #999;">${i18n.t('pokemon.noItem')}</span>`;
 
         // EVs显示（显示所有值，并根据性格显示颜色）
         const evs = this.utils.formatEVs(pokemon.evs);
@@ -776,10 +790,11 @@ class TeamManagerApp {
 
         // IVs显示（显示所有值，突出显示非31的）
         const allIvs = pokemon.ivs || [31, 31, 31, 31, 31, 31];
+        const statNames = this.utils.getStatNames();
         const ivsHTML = `
             <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
                 ${allIvs.map((iv, idx) => {
-                    const statName = this.utils.statNamesChinese[idx];
+                    const statName = statNames[idx];
                     const actualIv = (iv === undefined || iv === null) ? 31 : iv;
                     const color = actualIv === 31 ? '#6c757d' : '#FFA94D';
                     const fontWeight = actualIv === 31 ? '500' : '700';
@@ -797,7 +812,7 @@ class TeamManagerApp {
         const natureCN = this.utils.translate(pokemon.nature);
         const natureHTML = pokemon.nature ? `
             <span style="font-size: 13px; color: #f8f9fa;">
-                <strong>性格:</strong> ${natureCN}
+                <strong>${i18n.t('pokemon.nature')}:</strong> ${natureCN}
             </span>
         ` : '';
 
@@ -805,7 +820,7 @@ class TeamManagerApp {
         const teraHTML = pokemon.tera_type ? `
             <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);" class="type-${pokemon.tera_type}">
                 <i class="fa fa-star" style="font-size: 12px;"></i>
-                <span style="font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">太晶: ${this.utils.translate(pokemon.tera_type)}</span>
+                <span style="font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${i18n.t('pokemon.teraTypeLabel')}: ${this.utils.translate(pokemon.tera_type)}</span>
             </div>
         ` : '';
 
@@ -834,7 +849,7 @@ class TeamManagerApp {
 
                 <div style="margin-bottom: 10px;">
                     <div class="pokemon-moves">
-                        ${movesHTML || '<p style="color: #6c757d; font-size: 13px;">无招式</p>'}
+                        ${movesHTML || `<p style="color: #6c757d; font-size: 13px;">${i18n.t('pokemon.noMoves')}</p>`}
                     </div>
                 </div>
 
@@ -842,14 +857,14 @@ class TeamManagerApp {
                     ${natureHTML}
                     <div style="margin-top: 8px;">
                         <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fa fa-bar-chart"></i> EVs (努力值)
-                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">总计: ${evTotal}/510</span>` : ''}
+                            <i class="fa fa-bar-chart"></i> ${i18n.t('pokemon.evs')}
+                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">${i18n.t('pokemon.evsTotal')}: ${evTotal}/510</span>` : ''}
                         </div>
                         ${evsHTML}
                     </div>
                     <div style="margin-top: 10px;">
                         <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fa fa-star"></i> IVs (个体值)
+                            <i class="fa fa-star"></i> ${i18n.t('pokemon.ivs')}
                         </div>
                         ${ivsHTML}
                     </div>
@@ -949,35 +964,35 @@ class TeamManagerApp {
     }
 
     deleteTeam(teamId) {
-        if (!confirm('确定要删除这个队伍吗？此操作无法撤销。')) {
+        if (!confirm(i18n.t('delete.confirm'))) {
             return;
         }
 
         if (this.teamManager.deleteTeam(teamId)) {
             this.renderTeamsList();
-            this.showNotification('队伍删除成功');
+            this.showNotification(i18n.t('delete.success'));
         } else {
-            this.showToast('删除失败', 'error');
+            this.showToast(i18n.t('delete.error'), 'error');
         }
     }
 
     duplicateTeam(teamId) {
-        const newName = prompt('请输入新队伍的名称：');
+        const newName = prompt(i18n.t('duplicate.prompt'));
         if (!newName) return;
 
         const newTeamId = this.teamManager.duplicateTeam(teamId, newName);
         if (newTeamId) {
             this.renderTeamsList();
-            this.showNotification('队伍复制成功');
+            this.showNotification(i18n.t('duplicate.success'));
         } else {
-            this.showToast('复制失败', 'error');
+            this.showToast(i18n.t('duplicate.error'), 'error');
         }
     }
 
     editTeam(teamId) {
         const team = this.teamManager.getTeam(teamId);
         if (!team) {
-            this.showToast('队伍不存在', 'error');
+            this.showToast(i18n.t('errors.teamNotFound'), 'error');
             return;
         }
 
@@ -995,43 +1010,43 @@ class TeamManagerApp {
         dialog.innerHTML = `
             <div class="modal-content" style="max-width: 600px;">
                 <div class="modal-header">
-                    <h2>编辑队伍信息</h2>
+                    <h2>${i18n.t('edit.teamInfo')}</h2>
                     <button class="close-button">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>队伍名称 *</label>
+                        <label>${i18n.t('team.name')} *</label>
                         <input type="text" id="editTeamName" class="textbox"
-                               value="${this.escapeHtml(team.name)}" placeholder="输入队伍名称" required>
+                               value="${this.escapeHtml(team.name)}" placeholder="${i18n.t('team.namePlaceholder')}" required>
                     </div>
 
                     <div class="form-group">
-                        <label>格式</label>
+                        <label>${i18n.t('team.format')}</label>
                         <input type="text" id="editTeamFormat" class="textbox" list="editFormatList"
-                               value="${this.escapeHtml(team.format || '')}" placeholder="选择或输入格式名称">
+                               value="${this.escapeHtml(team.format || '')}" placeholder="${i18n.t('team.formatPlaceholder')}">
                         <datalist id="editFormatList">
                             ${formatOptions}
                         </datalist>
                     </div>
 
                     <div class="form-group">
-                        <label>描述</label>
+                        <label>${i18n.t('team.description')}</label>
                         <textarea id="editTeamDescription" class="textarea" rows="4"
-                                  placeholder="输入队伍描述（可选）">${this.escapeHtml(team.description || '')}</textarea>
+                                  placeholder="${i18n.t('team.descriptionPlaceholder')}">${this.escapeHtml(team.description || '')}</textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>标签</label>
+                        <label>${i18n.t('team.tags')}</label>
                         <input type="text" id="editTeamTags" class="textbox"
                                value="${this.escapeHtml(tagsString)}"
-                               placeholder="输入标签，用逗号分隔（例如：攻击队, VGC, 雨天队）">
-                        <small style="color: #666; font-size: 12px;">提示：多个标签用逗号分隔</small>
+                               placeholder="${i18n.t('team.tagsPlaceholder')}">
+                        <small style="color: #666; font-size: 12px;">${i18n.t('team.tagsHint')}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="button" onclick="this.closest('.modal').remove()">取消</button>
+                    <button class="button" onclick="this.closest('.modal').remove()">${i18n.t('actions.cancel')}</button>
                     <button class="button button-primary" id="saveTeamBtn">
-                        <i class="fa fa-save"></i> 保存
+                        <i class="fa fa-save"></i> ${i18n.t('actions.save')}
                     </button>
                 </div>
             </div>
@@ -1049,7 +1064,7 @@ class TeamManagerApp {
             if (!newName) {
                 const nameInput = dialog.querySelector('#editTeamName');
                 nameInput.classList.add('shake-invalid');
-                this.showToast('队伍名称不能为空', 'warning');
+                this.showToast(i18n.t('team.nameRequired'), 'warning');
 
                 // 动画结束后移除类，聚焦输入框
                 setTimeout(() => {
@@ -1078,7 +1093,7 @@ class TeamManagerApp {
                 if (existingTeam) {
                     const nameInput = dialog.querySelector('#editTeamName');
                     nameInput.classList.add('shake-invalid');
-                    this.showToast('队伍名称已存在，请使用其他名称', 'warning');
+                    this.showToast(i18n.t('team.nameExists'), 'warning');
 
                     // 动画结束后移除类，聚焦输入框
                     setTimeout(() => {
@@ -1093,7 +1108,7 @@ class TeamManagerApp {
             // 更新队伍
             if (this.teamManager.updateTeam(teamId, updates)) {
                 dialog.remove();
-                this.showNotification('队伍信息更新成功');
+                this.showNotification(i18n.t('edit.updateSuccess'));
 
                 // 刷新显示
                 this.renderTeamsList();
@@ -1106,7 +1121,7 @@ class TeamManagerApp {
                     this.viewTeam(newName !== team.name ? newName : teamId);
                 }
             } else {
-                this.showToast('队伍信息更新失败', 'error');
+                this.showToast(i18n.t('edit.updateError'), 'error');
             }
         });
 
@@ -1793,7 +1808,7 @@ class TeamManagerApp {
                 <div>${this.escapeHtml(abilityCN)}</div>
                 <div style="font-size: 11px; color: rgba(0,100,200,0.8); margin-top: 2px;">${this.escapeHtml(pokemon.ability)}</div>
             </div>` :
-            '<span style="color: #999;">未设置</span>';
+            `<span style="color: #999;">${i18n.t('pokemon.abilityUnset')}</span>`;
 
         const itemCN = this.utils.translate(pokemon.item);
         const itemDesc = this.utils.getItemDesc(pokemon.item, this.items);
@@ -1806,7 +1821,7 @@ class TeamManagerApp {
                     <div style="font-size: 11px; color: rgba(200,100,0,0.8); margin-top: 2px;">${this.escapeHtml(pokemon.item)}</div>
                 </div>
             </div>` :
-            '<span style="color: #999;">无道具</span>';
+            `<span style="color: #999;">${i18n.t('pokemon.noItem')}</span>`;
 
         const evs = this.utils.formatEVs(pokemon.evs);
         const evTotal = evs.reduce((sum, ev) => sum + ev.value, 0);
@@ -1845,10 +1860,11 @@ class TeamManagerApp {
 
         // IVs显示（显示所有值，突出显示非31的）
         const allIvs = pokemon.ivs || [31, 31, 31, 31, 31, 31];
+        const statNames = this.utils.getStatNames();
         const ivsHTML = `
             <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px;">
                 ${allIvs.map((iv, idx) => {
-                    const statName = this.utils.statNamesChinese[idx];
+                    const statName = statNames[idx];
                     const actualIv = (iv === undefined || iv === null) ? 31 : iv;
                     const color = actualIv === 31 ? '#6c757d' : '#FFA94D';
                     const fontWeight = actualIv === 31 ? '500' : '700';
@@ -1898,7 +1914,7 @@ class TeamManagerApp {
 
                 <div style="margin-bottom: 10px;">
                     <div class="pokemon-moves">
-                        ${movesHTML || '<p style="color: #6c757d; font-size: 13px;">无招式</p>'}
+                        ${movesHTML || `<p style="color: #6c757d; font-size: 13px;">${i18n.t('pokemon.noMoves')}</p>`}
                     </div>
                 </div>
 
@@ -1906,14 +1922,14 @@ class TeamManagerApp {
                     ${natureHTML}
                     <div style="margin-top: 8px;">
                         <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fa fa-bar-chart"></i> EVs (努力值)
-                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">总计: ${evTotal}/510</span>` : ''}
+                            <i class="fa fa-bar-chart"></i> ${i18n.t('pokemon.evs')}
+                            ${evTotal > 0 ? `<span style="margin-left: 8px; color: ${evTotal > 510 ? '#FF6B6B' : evTotal === 510 ? '#4ADE80' : '#FFA94D'};">${i18n.t('pokemon.evsTotal')}: ${evTotal}/510</span>` : ''}
                         </div>
                         ${evsHTML}
                     </div>
                     <div style="margin-top: 10px;">
                         <div style="font-size: 12px; color: #adb5bd; font-weight: 600; margin-bottom: 4px;">
-                            <i class="fa fa-star"></i> IVs (个体值)
+                            <i class="fa fa-star"></i> ${i18n.t('pokemon.ivs')}
                         </div>
                         ${ivsHTML}
                     </div>
@@ -1956,6 +1972,49 @@ class TeamManagerApp {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    /**
+     * 切换语言
+     */
+    async switchLanguage(locale) {
+        await i18n.setLocale(locale);
+    }
+
+    /**
+     * 更新语言按钮状态
+     */
+    updateLanguageButtons() {
+        const currentLocale = i18n.getLocale();
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            const btnLang = btn.getAttribute('data-lang');
+            if (btnLang === currentLocale) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    /**
+     * 语言切换后的回调
+     */
+    onLanguageChanged() {
+        // 更新页面翻译
+        i18n.updatePageTranslations();
+
+        // 更新语言按钮状态
+        this.updateLanguageButtons();
+
+        // 重新填充格式列表
+        this.populateFormatList();
+
+        // 重新渲染队伍列表
+        this.renderTeamsList();
+
+        // 显示切换成功提示
+        const message = i18n.getLocale() === 'zh-CN' ? '已切换到中文' : 'Switched to English';
+        this.showToast(message, 'success');
     }
 
     /**

@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>宝可梦队伍管理器</title>
+    <title data-i18n="app.title">宝可梦队伍管理器</title>
 
     <!-- External libraries -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Local styles -->
-    <link rel="stylesheet" href="css/main.css?v=2024112001">
+    <link rel="stylesheet" href="css/main.css?v=2024112003">
 
     <!-- Lottie Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
@@ -19,10 +19,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Local scripts -->
-    <script src="js/utils.js?v=2024112001"></script>
-    <script src="js/teamManager.js?v=2024112001"></script>
-    <script src="js/showdownParser.js?v=2024112001"></script>
-    <script src="js/app.js?v=2024112001"></script>
+    <script src="js/i18n.js?v=2024112003"></script>
+    <script src="js/utils.js?v=2024112003"></script>
+    <script src="js/teamManager.js?v=2024112003"></script>
+    <script src="js/showdownParser.js?v=2024112003"></script>
+    <script src="js/app.js?v=2024112003"></script>
 </head>
 <body>
     <!-- 页面滚动进度条 -->
@@ -31,10 +32,20 @@
     </div>
     <div class="container">
         <header>
-            <h1><i class="fa fa-users"></i> 宝可梦队伍管理器</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1><i class="fa fa-users"></i> <span data-i18n="app.title">宝可梦队伍管理器</span></h1>
+                <div class="language-switcher">
+                    <button onclick="app.switchLanguage('zh-CN')" class="lang-btn" data-lang="zh-CN" title="中文">
+                        中文
+                    </button>
+                    <button onclick="app.switchLanguage('en')" class="lang-btn" data-lang="en" title="English">
+                        EN
+                    </button>
+                </div>
+            </div>
             <p style="margin: 10px 0 0 0; opacity: 0.9;">
-                管理您的宝可梦对战队伍
-                <span style="background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 12px; margin-left: 10px;">
+                <span data-i18n="app.subtitle" style="color: #f8f9fa;">管理您的宝可梦对战队伍</span>
+                <span data-i18n="app.dataLocalOnly" style="background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 12px; margin-left: 10px; color: #f8f9fa;">
                     <i class="fa fa-shield"></i> 数据仅保存在本地，不传输到服务器
                 </span>
             </p>
@@ -44,27 +55,27 @@
             <div class="stats-overview">
                 <div class="stat-card">
                     <div class="stat-value" id="totalTeams">0</div>
-                    <div class="stat-label">总队伍数</div>
+                    <div class="stat-label" data-i18n="stats.totalTeams">总队伍数</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="totalPokemons">0</div>
-                    <div class="stat-label">总宝可梦数</div>
+                    <div class="stat-label" data-i18n="stats.totalPokemons">总宝可梦数</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="formatsCount">0</div>
-                    <div class="stat-label">使用的格式</div>
+                    <div class="stat-label" data-i18n="stats.formatsCount">使用的格式</div>
                 </div>
             </div>
 
             <div class="teams-toolbar">
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="搜索队伍、宝可梦..." class="textbox">
-                    <button onclick="app.searchTeams()" class="button"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder" placeholder="搜索队伍、宝可梦..." class="textbox">
+                    <button onclick="app.searchTeams()" class="button"><i class="fa fa-search"></i> <span data-i18n="actions.search">搜索</span></button>
                 </div>
 
                 <div class="filter-box">
                     <select id="formatFilter" class="select">
-                        <option value="">所有格式</option>
+                        <option value="" data-i18n="filter.allFormats">所有格式</option>
                         <option value="gen9vgc2025regj">Gen 9 VGC 2025 Reg J</option>
                         <option value="gen9vgc2025regi">Gen 9 VGC 2025 Reg I</option>
                         <option value="gen9vgc2024regg">Gen 9 VGC 2024 Reg G</option>
@@ -75,13 +86,13 @@
 
                 <div class="action-buttons">
                     <button onclick="app.showImportDialog()" class="button button-primary">
-                        <i class="fa fa-upload"></i> 导入队伍
+                        <i class="fa fa-upload"></i> <span data-i18n="actions.importTeam">导入队伍</span>
                     </button>
                     <button onclick="app.showCloudLibrary()" class="button button-cloud">
-                        <i class="fa fa-cloud"></i> 云端队伍库
+                        <i class="fa fa-cloud"></i> <span data-i18n="actions.cloudLibrary">云端队伍库</span>
                     </button>
                     <button onclick="app.exportAllTeams()" class="button">
-                        <i class="fa fa-download"></i> 备份所有队伍
+                        <i class="fa fa-download"></i> <span data-i18n="actions.backup">备份所有队伍</span>
                     </button>
                 </div>
             </div>
@@ -90,7 +101,7 @@
         <div class="teams-container" id="teamsContainer">
             <div class="loading">
                 <i class="fa fa-spinner fa-spin" style="font-size: 32px;"></i>
-                <p>加载中...</p>
+                <p data-i18n="loading.text">加载中...</p>
             </div>
         </div>
     </div>
@@ -99,25 +110,25 @@
     <div id="importDialog" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>导入队伍</h2>
+                <h2 data-i18n="import.dialogTitle">导入队伍</h2>
                 <button onclick="app.closeImportDialog()" class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>队伍名称</label>
-                    <input type="text" id="importTeamName" class="textbox" placeholder="输入队伍名称">
+                    <label data-i18n="team.name">队伍名称</label>
+                    <input type="text" id="importTeamName" class="textbox" data-i18n-placeholder="team.namePlaceholder" placeholder="输入队伍名称">
                 </div>
 
                 <div class="form-group">
-                    <label>格式</label>
-                    <input type="text" id="importTeamFormat" class="textbox" list="formatList" placeholder="选择或输入格式名称">
+                    <label data-i18n="team.format">格式</label>
+                    <input type="text" id="importTeamFormat" class="textbox" list="formatList" data-i18n-placeholder="team.formatPlaceholder" placeholder="选择或输入格式名称">
                     <datalist id="formatList">
                         <!-- 将从 meta_names.json 动态加载 -->
                     </datalist>
                 </div>
 
                 <div class="form-group">
-                    <label>Showdown 格式队伍</label>
+                    <label data-i18n="import.showdownFormat">Showdown 格式队伍</label>
                     <textarea id="importTeamText" class="textarea" rows="15" placeholder="粘贴 Pokemon Showdown 格式的队伍...
 
 例如:
@@ -134,9 +145,9 @@ Adamant Nature
                 </div>
 
                 <div class="modal-footer">
-                    <button onclick="app.closeImportDialog()" class="button">取消</button>
+                    <button onclick="app.closeImportDialog()" class="button" data-i18n="actions.cancel">取消</button>
                     <button onclick="app.importTeam()" class="button button-primary">
-                        <i class="fa fa-upload"></i> 导入
+                        <i class="fa fa-upload"></i> <span data-i18n="actions.import">导入</span>
                     </button>
                 </div>
             </div>
@@ -147,36 +158,36 @@ Adamant Nature
     <div id="cloudLibraryDialog" class="modal">
         <div class="modal-content" style="max-width: 900px;">
             <div class="modal-header">
-                <h2><i class="fa fa-cloud"></i> 云端队伍库</h2>
+                <h2><i class="fa fa-cloud"></i> <span data-i18n="cloud.title">云端队伍库</span></h2>
                 <button onclick="app.closeCloudLibrary()" class="close-button">&times;</button>
             </div>
             <div class="modal-body">
                 <div id="cloudTeamsContainer" class="loading">
                     <i class="fa fa-spinner fa-spin" style="font-size: 32px;"></i>
-                    <p>加载云端队伍中...</p>
+                    <p data-i18n="cloud.loading">加载云端队伍中...</p>
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="app.closeCloudLibrary()" class="button">关闭</button>
+                <button onclick="app.closeCloudLibrary()" class="button" data-i18n="actions.close">关闭</button>
             </div>
         </div>
     </div>
 
     <footer style="text-align: center; padding: 30px 20px; color: #666;">
         <p style="margin-bottom: 10px;">
-            <strong>宝可梦队伍管理器 - 静态版本</strong>
+            <strong data-i18n="app.staticVersion">宝可梦队伍管理器 - 静态版本</strong>
         </p>
         <div style="display: inline-block; background: #e8f5e9; padding: 12px 20px; border-radius: 8px; margin: 10px 0;">
             <p style="margin: 0; color: #2e7d32; font-size: 14px;">
                 <i class="fa fa-shield" style="color: #4caf50;"></i>
-                <strong>数据安全保证</strong><br>
-                <span style="font-size: 13px;">
+                <strong data-i18n="footer.dataSecurity">数据安全保证</strong><br>
+                <span style="font-size: 13px;" data-i18n="footer.dataSecurityDesc">
                     所有队伍数据仅存储在您的浏览器本地（localStorage）<br>
                     不会上传到任何服务器 | 不会收集任何个人信息 | 完全离线可用
                 </span>
             </p>
         </div>
-        <p style="font-size: 12px; margin-top: 15px; color: #999;">
+        <p style="font-size: 12px; margin-top: 15px; color: #999;" data-i18n="footer.features">
             支持 Showdown 格式导入导出 | 建议定期备份重要队伍
         </p>
     </footer>

@@ -1855,3 +1855,44 @@ button:active, .btn:active, .button:active {
     border-color: #FF3B30 !important;
     box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.25) !important;
 }
+
+/* =========================================
+   21. 语言切换按钮 (Language Switcher)
+   ========================================= */
+.language-switcher {
+    display: flex;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.lang-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.lang-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+}
+
+.lang-btn.active {
+    background: var(--apple-blue);
+    color: white;
+    box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
+}
+
+.lang-btn:active {
+    transform: scale(0.95);
+}

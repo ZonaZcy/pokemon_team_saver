@@ -1,0 +1,166 @@
+{
+  "app": {
+    "title": "宝可梦队伍管理器",
+    "subtitle": "管理您的宝可梦对战队伍",
+    "dataLocalOnly": "数据仅保存在本地，不传输到服务器",
+    "staticVersion": "宝可梦队伍管理器 - 静态版本"
+  },
+  "stats": {
+    "totalTeams": "总队伍数",
+    "totalPokemons": "总宝可梦数",
+    "formatsCount": "使用的格式"
+  },
+  "actions": {
+    "search": "搜索",
+    "import": "导入",
+    "export": "导出",
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "cancel": "取消",
+    "close": "关闭",
+    "view": "查看",
+    "duplicate": "复制",
+    "backup": "备份所有队伍",
+    "importTeam": "导入队伍",
+    "cloudLibrary": "云端队伍库",
+    "saveImage": "保存图片"
+  },
+  "search": {
+    "placeholder": "搜索队伍、宝可梦...",
+    "noResults": "没有找到匹配的队伍"
+  },
+  "filter": {
+    "allFormats": "所有格式"
+  },
+  "team": {
+    "format": "格式",
+    "name": "队伍名称",
+    "description": "描述",
+    "tags": "标签",
+    "tagsPlaceholder": "输入标签，用逗号分隔（例如：攻击队, VGC, 雨天队）",
+    "tagsHint": "提示：多个标签用逗号分隔",
+    "updatedAt": "更新于",
+    "pokemonCount": "只",
+    "cloudTeam": "云端队伍",
+    "namePlaceholder": "输入队伍名称",
+    "formatPlaceholder": "选择或输入格式名称",
+    "descriptionPlaceholder": "输入队伍描述（可选）",
+    "nameRequired": "队伍名称不能为空",
+    "nameExists": "队伍名称已存在，请使用其他名称",
+    "unsetFormat": "未设置"
+  },
+  "pokemon": {
+    "nickname": "昵称",
+    "nicknamePlaceholder": "昵称（可选）",
+    "gender": "性别",
+    "genderUnknown": "未知",
+    "genderMale": "雄性 (M)",
+    "genderFemale": "雌性 (F)",
+    "item": "道具",
+    "itemPlaceholder": "选择或输入道具",
+    "noItem": "无道具",
+    "ability": "特性",
+    "abilityPlaceholder": "选择或输入特性",
+    "abilityUnset": "未设置",
+    "teraType": "太晶属性",
+    "teraTypeUnset": "未设置",
+    "teraTypeLabel": "太晶",
+    "nature": "性格",
+    "naturePlaceholder": "未设置",
+    "level": "等级",
+    "moves": "招式",
+    "movesMax": "招式（最多4个）",
+    "movePlaceholder": "招式",
+    "noMoves": "无招式",
+    "evs": "努力值 (EVs)",
+    "evsTotal": "总计",
+    "ivs": "个体值 (IVs)",
+    "ivsDefault": "默认31",
+    "power": "威力",
+    "priority": "先制",
+    "accuracy": "命中",
+    "sureHit": "必中",
+    "statusMove": "变化"
+  },
+  "import": {
+    "dialogTitle": "导入队伍",
+    "teamName": "队伍名称",
+    "format": "格式",
+    "showdownFormat": "Showdown 格式队伍",
+    "placeholder": "粘贴 Pokemon Showdown 格式的队伍...\n\n例如:\nRillaboom @ Assault Vest\nAbility: Grassy Surge\nLevel: 50\nTera Type: Fire\nEVs: 252 HP / 252 Atk / 4 SpD\nAdamant Nature\n- Fake Out\n- Grassy Glide\n- Wood Hammer\n- U-turn",
+    "pasteData": "请粘贴队伍数据",
+    "success": "导入成功！共导入 {count} 只宝可梦",
+    "noPokemon": "没有解析到任何宝可梦",
+    "error": "导入失败",
+    "defaultName": "导入的队伍"
+  },
+  "export": {
+    "copied": "队伍已复制到剪贴板",
+    "backupDownloaded": "备份已下载",
+    "imageSaving": "正在生成海报，请稍候...",
+    "imageSuccess": "海报保存成功！",
+    "imageError": "生成图片失败，请重试",
+    "imageNotFound": "无法获取队伍内容"
+  },
+  "cloud": {
+    "title": "云端队伍库",
+    "loading": "加载云端队伍中...",
+    "empty": "云端还没有队伍",
+    "emptyDesc": "云端队伍库为空",
+    "loadError": "加载失败",
+    "loadErrorDesc": "无法加载任何队伍数据",
+    "indexMissing": "请确保 cloud-teams/index.json 文件存在",
+    "importSuccess": "队伍 \"{name}\" 已导入到本地",
+    "importError": "导入失败",
+    "importToLocal": "导入到本地",
+    "cannotGetData": "无法获取队伍数据"
+  },
+  "edit": {
+    "teamInfo": "编辑队伍信息",
+    "pokemon": "编辑宝可梦 - {name}",
+    "updateSuccess": "队伍信息更新成功",
+    "updateError": "队伍信息更新失败",
+    "pokemonUpdateSuccess": "宝可梦信息更新成功",
+    "pokemonUpdateError": "宝可梦信息更新失败"
+  },
+  "delete": {
+    "confirm": "确定要删除这个队伍吗？此操作无法撤销。",
+    "success": "队伍删除成功",
+    "error": "删除失败"
+  },
+  "duplicate": {
+    "prompt": "请输入新队伍的名称：",
+    "success": "队伍复制成功",
+    "error": "复制失败"
+  },
+  "empty": {
+    "title": "还没有队伍",
+    "message": "点击\"导入队伍\"开始构建你的冠军之路，或浏览\"云端队伍库\"快速上手！"
+  },
+  "loading": {
+    "text": "加载中..."
+  },
+  "validation": {
+    "evOver510": "努力值总和不能超过510",
+    "evOver252": "单项努力值不能超过252",
+    "ivRange": "个体值范围：0-31",
+    "levelRange": "等级范围：1-100"
+  },
+  "errors": {
+    "teamNotFound": "队伍不存在",
+    "pokemonNotFound": "宝可梦不存在",
+    "loadFormats": "加载格式列表失败",
+    "loadMoves": "加载招式数据失败",
+    "loadAbilities": "加载特性数据失败",
+    "loadItems": "加载道具数据失败"
+  },
+  "footer": {
+    "dataSecurity": "数据安全保证",
+    "dataSecurityDesc": "所有队伍数据仅存储在您的浏览器本地（localStorage）<br>不会上传到任何服务器 | 不会收集任何个人信息 | 完全离线可用",
+    "features": "支持 Showdown 格式导入导出 | 建议定期备份重要队伍"
+  },
+  "konami": {
+    "godMode": "🎮 GOD MODE ACTIVATED! 🎮"
+  }
+}

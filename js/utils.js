@@ -11,6 +11,16 @@ class PokemonUtils {
     }
 
     /**
+     * 获取当前语言的属性名称
+     */
+    getStatNames() {
+        if (typeof i18n !== 'undefined' && i18n.getLocale() === 'en') {
+            return this.statNames;
+        }
+        return this.statNamesChinese;
+    }
+
+    /**
      * 加载翻译数据
      */
     async loadTranslations() {
@@ -66,6 +76,11 @@ class PokemonUtils {
     translate(englishText) {
         if (!englishText) return englishText;
 
+        // 如果当前语言是英文，直接返回原文，不翻译
+        if (typeof i18n !== 'undefined' && i18n.getLocale() === 'en') {
+            return englishText;
+        }
+
         // 直接查找
         if (this.translations[englishText]) {
             return this.translations[englishText];
@@ -95,6 +110,11 @@ class PokemonUtils {
      * 翻译形态后缀
      */
     translateSuffix(suffix) {
+        // 如果当前语言是英文，直接返回原后缀
+        if (typeof i18n !== 'undefined' && i18n.getLocale() === 'en') {
+            return suffix;
+        }
+
         const suffixMap = {
             '-Mega': '-超级',
             '-Alola': '-阿罗拉',
@@ -202,12 +222,13 @@ class PokemonUtils {
             evs.push(0);
         }
 
+        const statNames = this.getStatNames();
         const formatted = [];
         for (let i = 0; i < 6; i++) {
             const ev = evs[i] || 0;
             formatted.push({
                 stat: this.statNames[i],
-                statChinese: this.statNamesChinese[i],
+                statChinese: statNames[i],
                 value: ev
             });
         }
@@ -228,6 +249,7 @@ class PokemonUtils {
             ivs.push(31);
         }
 
+        const statNames = this.getStatNames();
         const formatted = [];
         for (let i = 0; i < 6; i++) {
             const iv = ivs[i] === undefined || ivs[i] === null ? 31 : ivs[i];
@@ -235,7 +257,7 @@ class PokemonUtils {
             if (iv !== 31) {
                 formatted.push({
                     stat: this.statNames[i],
-                    statChinese: this.statNamesChinese[i],
+                    statChinese: statNames[i],
                     value: iv
                 });
             }
